@@ -1,7 +1,7 @@
 ---
 title: "Laban Effort classification"
 date: 2019-02-20T16:22:09+01:00
-draft: false
+draft: true
 ---
 
 This article present our results on Laban Effort classication for motion quality recognition. Rudolf Laban is a choregrapher who proposed a motion theory qualifying movement in terms of **Space, Time and Weight**... Considering a motion segment as a 6D curve, storing position and orientations, we worked on two different approaches in attemps to classify motions into the Laban Action Effort. The two approaches relies on geometric features studies. For each point of a given 6D curve we compute its speed, acceleration, jerk, equi-affined speed, equi-affine acceleration, torsion and curvature.

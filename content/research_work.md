@@ -10,4 +10,10 @@ This work tackle three problems: Creating an animation sequence using one 6D tra
 
 
 
+[Laban Effort Transfer](../laban_transfer)
 [Laban Effort Classification](../hmm_classification)
+
+
+
+# Publications
+<p><iframe src="https://haltools.inria.fr/Public/afficheRequetePubli.php?labos_exp=174814&amp;auteur_exp=Maxime,Garcia&amp;CB_auteur=oui&amp;CB_titre=oui&amp;CB_article=oui&amp;CB_vignette=oui&amp;langue=Francais&amp;tri_exp=annee_publi&amp;tri_exp2=date_publi&amp;tri_exp3=date_publi&amp;ordre_aff=TA&amp;Fen=Aff&amp;css=../css/VisuOmbreVignettes.css" width="800" height="500" frameborder="2" scrolling="auto" align="top"></iframe></p>

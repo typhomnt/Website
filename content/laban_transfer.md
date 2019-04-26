@@ -1,0 +1,20 @@
+---
+title: "Laban Effort Animation Transfer"
+date: 2019-02-20T16:22:09+01:00
+draft: false
+---
+
+One important aspect of my thesis work is adding expressivity to an input "neutral" animation. In our work, we decided to take the Laban Effort space as the main representation of the expressivity.
+This 4D space is divided into Space, Time, Weight and Flow axis. The Space axis describes how direct or indirect a movment is, Time describes if a movment is rather sudden or sustained while Weight differenciate Light from Strong motions. Finally Flow describes if a motion sequence is free or bound. In this article, I will only present how to transfer Time and Weight to a neutral animation.
+To do so, I will first introduce three animation operators: scaling, retiming and shaping operators. 
+### Scaling ###
+
+### Efforts Comparison  ###
+Finally, I show below the comparison of the 4 efforts for several animations of the Mixamo database
+![Kick Laban](/Images/Laban_Transfer/kick_laban.gif)
+![Punch Laban](/Images/Laban_Transfer/punch_laban.gif)
+![Stomp Laban](/Images/Laban_Transfer/stomp_laban.gif)
+![Throw Laban](/Images/Laban_Transfer/throw_laban.gif)
+
+I personnaly think that those modifiers do the job as long as the animation phases are correctly defined. Still there are ways of improvment: first foot sliding should be removed for light and strong modifiers; secondly I should find a way to avoid light and strong motion to be too fast for some animations. This is due to the fact that some animations present long moments where there is no speed. 
+I will try to redo the same parametrisation but using the affine speed instead.
