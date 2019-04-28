@@ -10,6 +10,7 @@ This work tackle three problems: Creating an animation sequence using one 6D tra
 
 
 
+[Animation Transfer](../animation_transfer)
 [Laban Effort Transfer](../laban_transfer)
 [Laban Effort Classification](../hmm_classification)
 
