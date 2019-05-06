@@ -16,5 +16,5 @@ Finally, I show below the comparison of the 4 efforts for several animations of 
 ![Stomp Laban](/Images/Laban_Transfer/stomp_laban.gif)
 ![Throw Laban](/Images/Laban_Transfer/throw_laban.gif)
 
-I personnaly think that those modifiers do the job as long as the animation phases are correctly defined. Still there are ways of improvment: first foot sliding should be removed for light and strong modifiers; secondly I should find a way to avoid light and strong motion to be too fast for some animations. This is due to the fact that some animations present long moments where there is no speed. 
-I will try to redo the same parametrisation but using the affine speed instead.
+I personnaly think that those modifiers do the job as Laban Effort qualities are recognizable. That remains true as long as the animation phases are correctly defined. Still there are ways of improvment: first, foot sliding should be removed for light and strong modifiers; secondly, light and strong motions are sometimes too fast for some animations. This is due to the fact that some animations present long moments where there is no speed. 
+<!---In furture experimentations, I will try to use the equi-affine speed instead of the speed for the retiming operator, taking into account animation breakdowns.-->
