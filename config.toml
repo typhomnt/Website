@@ -4,3 +4,4 @@ title = "Maxime Garcia"
 theme = "ananke"
 
 
+ignorefiles = [ "content/Utils/*" ]
