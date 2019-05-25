@@ -14,8 +14,6 @@ This work tackle three problems: Creating an animation sequence using one 6D tra
 [Animation Transfer Two Characters](../animation_transfer_two_chars)
 [Laban Effort Transfer](../laban_transfer)
 [Laban Effort Classification](../hmm_classification)
-[WIP Works](../test)
-
 
 
 # Publications

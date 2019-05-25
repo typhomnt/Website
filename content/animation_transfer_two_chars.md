@@ -4,6 +4,9 @@ date: 2019-02-20T16:22:09+01:00
 draft: false
 ---
 
+{{< protected  path="." >}}
+
+
 In the [animation transfer](../animation_transfer) article, I presented a method to create a animation sequence from a 6D trajectory. 
 This method is centered around one character at a time. Here, I propose a way to extend it in order to take into account multiple characters and their interactions.
 
