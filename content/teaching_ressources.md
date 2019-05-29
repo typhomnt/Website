@@ -8,3 +8,5 @@ draft: false
 [Raytracing Ressources](../raytracing_practs)
 
 [Functionnal Programming](../functionnal_programming_practs)
+
+[Label RES Portfolio](../teaching_portfolio)
