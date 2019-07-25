@@ -53,4 +53,9 @@ Nettement bien moins réussie, alors qu'a difficulté égale avec la première. 
 Interrogation la mieux réussie des quatres. Je pense que ceci est dû au suivit plus intensif des TP qui étaient fortement corrélés avec cette partie du cours.
 
 ### [Quick4](/Files/L1_quick4.pdf) ###
-Dernière interrogation qui était aussi la plus difficile mais qui a eut un bon taux de réussite. Durant cette période j'ai pu constater la progression d'une bonne partie des élèves qui continuaient de venir en cours montrant que mes déscisions pédagogiques ont porté leurs 
+Dernière interrogation qui était aussi la plus difficile mais qui a eut un bon taux de réussite. Durant cette période j'ai pu constater la progression d'une bonne partie des élèves qui continuaient de venir en cours montrant que mes déscisions pédagogiques ont porté leurs fruits.
+
+
+## Concevoir des complemets de cours permettants aux eleves d'aller plus loin ##
+
+

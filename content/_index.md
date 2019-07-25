@@ -14,7 +14,7 @@ My students can also find praticals topics and courses slides in the teaching re
 Finally, I'll also post some art related stuff since I sometimes take time to draw or do some 3D modeling.
 
 
-[Teaching Resources](teaching_ressources)
-[Research Work](research_work)
-[SkyEngine](skyengine)
-[Art](art)
+[Teaching Resources](teaching_ressources) |
+[Research Work](research_work) |
+[SkyEngine](skyengine) |
+[Art](art) 

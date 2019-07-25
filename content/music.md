@@ -13,4 +13,3 @@ Chopin Etude 5 Op 25 "Wrong Notes" (Recorded in 2015)
   <source type="audio/mp3" src="/Audio/Wrong_Notes_good.mp3"></source>
 </audio>
 
-
