@@ -14,6 +14,7 @@ draft: false
 
 ![Example 1](/Images/SkyEngine/Kick_LaplacianEdit.gif)
 ![Example 2](/Images/SkyEngine/CrecentKick_LaplacianEdit.gif)
+![Example 2](/Images/SkyEngine/Slap_LaplacianEdit.gif)
 
 
 
