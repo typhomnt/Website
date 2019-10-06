@@ -43,7 +43,6 @@ Ceci est la première intérogation de cours que j'ai eu à écrire. Il était c
 J'ai pu me faire très rapidement une idée des difficultés des uns et des autres grâce à ce premier contrôle d'autant plus que j'ai fait passer des élèves aux tableaux pour la correction afin qu'ils comprennent leurs erreurs
 
 
-
 ### [Quick2](/Files/L1_quick2.pdf) ###
 Nettement bien moins réussie, alors qu'a difficulté égale avec la première. Trop d'élèves n'avaient pas travaillé les TDs et les TPs. Le manque d'implication et de motivation s'est fait ressentir. je me suis donc plus ouvert en proposant un retour des notes et TPs individuels et en insistant sur la communication par mail lorsqu'il avaient des difficultés à la maison.
 
@@ -56,6 +55,16 @@ Interrogation la mieux réussie des quatres. Je pense que ceci est dû au suivit
 Dernière interrogation qui était aussi la plus difficile mais qui a eut un bon taux de réussite. Durant cette période j'ai pu constater la progression d'une bonne partie des élèves qui continuaient de venir en cours montrant que mes déscisions pédagogiques ont porté leurs fruits.
 
 
-## Concevoir des complemets de cours permettants aux eleves d'aller plus loin ##
+## Concevoir des complements de cours permettants aux élèves d'aller plus loin ##
 
+### Objectif ###
 
+Durant mes trois ans de these j'ai du concevoir et modifier a plusieurs reprises un cours de Graphique 3D visant a apporter des complements d'enseignement sur un cours du meme sujet que suivaient les eleves de Master 1 International en parallele. Pour la conception de ce cours j'avais une grande marge de manoeuvre du moment que j'apportai au eleves des elements qu'ils ne verraient pas pendant l'annee et en Master 2. 
+Mon objectif d'enseignment etait d'introduire des complements de cours qui permettraient au eleves de voir des nouvelles techniques et procedes tout en ayant des element de comparaison avec le cours principal de graphique 3D.
+
+ 
+### Stratégie ###
+
+Afin de remplir cet objectif, j'ai choisi de faire une introduction aux techniques de Ray Tracing qui consistent a simuler le comportement physique de la lumiere pour faire des rendus realiste d'images de syntheses. Ce choix est coherent avec l'objectif que je me suis fixe car c'est une technique tres utilisee dans l'industrie du film d'animation que les eleves ne verraient malheureusement pas dans la suite de leur cursus et avec laquelle on peut faire de nombreuses comparaisons avec les techniques traditionnelles de rendu utilisee dans les jeux videos (cours principal). La conception de ce cours a presentait neanmoins quelques difficultes car c'est un sujet complexe qui a de nombreuses utilisations et qui techniquement re.  fut 
+
+### Bilan ###
