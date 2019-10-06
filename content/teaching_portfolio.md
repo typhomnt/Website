@@ -5,6 +5,8 @@ draft: false
 ---
 {{< protected  path="." >}}
 
+Bienvenue sur mon portfolio d'enseignement. Ici je 
+
 ## Concevoir des enseignements qui favorisent l'apprentissage de chacun ##
 
 ### Objectif ###
@@ -30,7 +32,7 @@ Enfin, en vue de l'examen final j'ai proposé aux élèves de faire une séance 
 
 ### Bilan ###
 
-Il est donc clair que je peux encore m'améliorer sur cette compétence et je pense  mon enseignement  manque encore d'un support complémentaire qui motiverait les élèves à s'intéresser d'avantage à la programmation fonctionnelle.
+Il est donc clair que je peux encore m'améliorer sur cette compétence et je pense mon enseignement manque encore d'un support complémentaire qui motiverait les élèves à s'intéresser d'avantage à la programmation fonctionnelle.
 
 
 Pour le développement de cette compétence, je me suis particulièrement attaché aux groupes de Licence 1 que j'encadrais et non au groupe de Master 1 qui, selon moi, savent déjà vers quelle voie ils veulent s'orienter. A l'inverse, beaucoup d'élèves de L1 ne savent pas vers quelle formation ils veulent s'orienter et abandonnent en cours de route car ils ne trouvent pas leur place alors qu'il suffirait de leur donner une motivation (au travers de projets plus concrets par exemple) ou un objecif plus concret (en leur montrant des démonstrations) afin de leur donner une bonne idée de ce que l'on peut faire après la L1.
@@ -65,6 +67,10 @@ Mon objectif d'enseignment etait d'introduire des complements de cours qui perme
  
 ### Stratégie ###
 
-Afin de remplir cet objectif, j'ai choisi de faire une introduction aux techniques de Ray Tracing qui consistent a simuler le comportement physique de la lumiere pour faire des rendus realiste d'images de syntheses. Ce choix est coherent avec l'objectif que je me suis fixe car c'est une technique tres utilisee dans l'industrie du film d'animation que les eleves ne verraient malheureusement pas dans la suite de leur cursus et avec laquelle on peut faire de nombreuses comparaisons avec les techniques traditionnelles de rendu utilisee dans les jeux videos (cours principal). La conception de ce cours a presentait neanmoins quelques difficultes car c'est un sujet complexe qui a de nombreuses utilisations et qui techniquement re.  fut 
+Afin de remplir cet objectif, j'ai choisi de faire une introduction aux techniques de Ray Tracing qui consistent a simuler le comportement physique de la lumiere pour faire des rendus realistes d'images de syntheses. Ce choix est coherent avec l'objectif que je me suis fixe car c'est une technique tres utilisee dans l'industrie du film d'animation que les eleves ne verront malheureusement pas durant la suite de leur cursus et avec laquelle on peut faire de nombreuses comparaisons avec les techniques traditionnelles de rendus utilisees dans les jeux videos (cours principal). Neanmoins, la conception de ce cours a presente quelques difficultes car c'est un sujet complexe qui a de nombreuses utilisations et qui recquiert l'introduction d'outils physique et mathematiques. 
+
+La premiere annee j'ai opte pour 
 
 ### Bilan ###
+
+
