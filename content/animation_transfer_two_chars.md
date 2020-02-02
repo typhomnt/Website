@@ -4,7 +4,7 @@ date: 2019-02-20T16:22:09+01:00
 draft: false
 ---
 
-{{< protected  path="." >}}
+#{{< protected  path="." >}}
 
 
 In the [animation transfer](../animation_transfer) article, I presented a method to create a animation sequence from a 6D trajectory. 

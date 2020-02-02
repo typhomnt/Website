@@ -11,4 +11,4 @@ SkyEngine is yet another game engine I am working on together with co-workers an
 
 
 
-[Basic Toon Shading](../basic_toon_shading) | [Animation Target Ctr](../animation_target_ctr)
+[Basic Toon Shading](../basic_toon_shading) | [Animation Target Ctr](../animation_target_ctr)| [Bloom Effect](../bloom_effect)
