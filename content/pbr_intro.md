@@ -93,7 +93,20 @@ Let us describe the micor-facet model in more details. We mentionned the roughne
 Those micro-facets represents the surface of the object and their orientation directly affect the direction of reflected light:
 
 That's why smooth surfaces typically behave like mirrors while reflections are blurier on rough surfaces.
+We can now describe the role of the Normal Distribution Function D and the Geonetric function G.
+D represent the amount of microfacet that are in the direction of the half vector $h$. This is the same as computing the amount of reflected light rays that are colinear to the view vector  $v$.
+In our case, we chose the GGX distribution function as NDF:
 
+$$D = NDF_{GGX TR}(n, h, \alpha) = \frac{\alpha^2}{\pi((n \cdot h)^2 (\alpha^2 - 1) + 1)^2}$$
+
+
+The Geometric function simulates two phenomena that occurs between micro-facets namely obstruction and shadowing. In the two cases, either the incoming light cannot reach some micro-facets because there are in the shadows of others (shadowing) or reflected light is blocked by other facets (obtruction). Therefore, some amount of reflected light is "lost" and this is exactly the information given by the Geometric function. In our case we chose the Schlick-GGX approximation:
+
+$$    G_S(n, v, k) =  \frac{n \cdot v}{(n \cdot v)(1 - k) + k } $$
+
+Taking into account the two effects:
+
+$$   G(n,v,l,k) =  G_S(n, v, k)  G_S(n, l, k) $$
 
 
 
