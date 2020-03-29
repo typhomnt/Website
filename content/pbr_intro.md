@@ -102,15 +102,144 @@ $$D = NDF_{GGX TR}(n, h, \alpha) = \frac{\alpha^2}{\pi((n \cdot h)^2 (\alpha^2 -
 
 The Geometric function simulates two phenomena that occurs between micro-facets namely obstruction and shadowing. In the two cases, either the incoming light cannot reach some micro-facets because there are in the shadows of others (shadowing) or reflected light is blocked by other facets (obtruction). Therefore, some amount of reflected light is "lost" and this is exactly the information given by the Geometric function. In our case we chose the Schlick-GGX approximation:
 
-$$    G_S(n, v, k) =  \frac{n \cdot v}{(n \cdot v)(1 - k) + k } $$
+$$    G_S(n, v, k) =  \frac{n \cdot v}{(n \cdot v)(1 - k) + k }  $$
 
 Taking into account the two effects:
 
 $$   G(n,v,l,k) =  G_S(n, v, k)  G_S(n, l, k) $$
 
+In this tutorial we made choices for approximation functions but several other were proposed in the literature, I invite you to take a look in the diffecences they have (the main behaviour remains the same though) link here.
+
+We are now ready to dive into the code. The base code can be found [here](/Files/MSIAM_Code.zip).
+First, we will add micro-facet properties to the HitSurface structure, adding roughness, ambient occlusion and metallic properties.
+
+    struct HitSurface
+    {
+        vec3 hit_point;
+        vec3 normal;
+        vec3 color;
+        float roughness;
+        float ao;
+        float metallic;
+    };
+
+Next, in the same way we implemented the Phong illumination function, we will implement the PBR direct illumination function which will be called inside the directIllumination function.
+
+    vec3 PBR(in HitSurface hit, in Light l, in vec3 l_dir)
+    {
+        vec3 ambient = vec3(0.03) * hit.color * hit.ao;
+        vec3 F0 = vec3(0.04); 
+        F0 = mix(F0, hit.color, hit.metallic);
+        vec3 N = ..
+        vec3 Ve = ...
+        vec3 H = normalize(Ve + l_dir);
+        float attenuation = ...
+        vec3 light_color = ....
+        return ambient + computeReflectance(N,Ve,F0,hit.color,l_dir,H
+        ,light_color,attenuation,hit.metallic,hit.roughness);
+    }
 
 
+Below, we provide you all the necessary functions in order to compute the outgoing reflectance:
 
+    float DistributionGGX(vec3 N, vec3 H, float roughness)
+    {
+        float a      = roughness*roughness;
+        float a2     = a*a;
+        float NdotH  = max(dot(N, H), 0.0);
+        float NdotH2 = NdotH*NdotH;
+
+        float nom   = a2;
+        float denom = (NdotH2 * (a2 - 1.0) + 1.0);
+        denom = PI * denom * denom;
+
+        return nom / denom;
+    }
+
+    float GeometrySchlickGGX(float NdotV, float roughness)
+    {
+        float r = (roughness + 1.0);
+        float k = (r*r) / 8.0;
+
+        float nom   = NdotV;
+        float denom = NdotV * (1.0 - k) + k;
+
+        return nom / denom;
+    }
+
+    float GeometrySmith(vec3 N, vec3 V, vec3 L, float roughness)
+    {
+        float NdotV = max(dot(N, V), 0.0);
+        float NdotL = max(dot(N, L), 0.0);
+        float ggx2  = GeometrySchlickGGX(NdotV, roughness);
+        float ggx1  = GeometrySchlickGGX(NdotL, roughness);
+
+        return ggx1 * ggx2;
+    }
+
+    vec3 fresnelSchlickRoughness(float cosTheta, vec3 F0, float roughness)
+    {
+        return F0 + (max(vec3(1.0 - roughness), F0) - F0) 
+        *pow((1.0 + 0.000001/*avoid 0 power undefined behavior*/) - cosTheta, 5.0);
+    }
+
+    vec3 computeReflectance(vec3 N, vec3 Ve, vec3 F0, vec3 albedo, vec3 L, vec3 H
+    , vec3 diffuse
+    , float attenuation
+    , float metallic
+    , float roughness)
+    {
+        vec3 radiance = diffuse * attenuation;
+
+        // cook-torrance brdf
+        float NDF = DistributionGGX(N, H, roughness);
+        float G   = GeometrySmith(N, Ve, L,roughness);
+        vec3 F    = fresnelSchlickRoughness(max(dot(H, Ve), 0.0), F0, roughness);
+
+        vec3 kS = F;
+        vec3 kD = vec3(1.0) - kS;
+        //metallic materials do not diffuse, only reflect
+        kD *= 1.0 - metallic;
+
+        vec3 nominator    = NDF * G * F;
+        float denominator = 4 * max(dot(N, Ve), 0.0) * max(dot(N, L), 0.0) + 0.001;
+        vec3 specular     = nominator / denominator;
+
+        // add to outgoing radiance Lo
+        float NdotL = max(dot(N, L), 0.0);
+
+        return (kD * (albedo)/ PI + specular) * radiance * NdotL;
+    }
+
+
+Finally, two last changes have to be taken into consideration to complete our model: first shadows have to be modeled in a more realistic manner, thus we will take the PBR ambient term into account for shadowed surfaces. Additionally, the reflection attenuation factor we used in our previous model was completely arbitrary, whereas in this new PBR context it can be computed accurately using the Fresnel function.
+
+    vec3 directIllumination(in HitSurface hit,inout float refl)
+    {
+       
+        vec3 color = vec3(0);
+        for(int i = 0 ; i < light_nbr ; i++)
+        {
+                Ray l_ray;
+                float shadow_fact = 0.3;
+                if(lighted)
+                {
+                    color += PBR(hit,lights[i],l_ray.rd);
+                }
+                else
+                {
+                    color += PBR_{ambient}*shadow_fact;
+                }
+
+                //Reflection factor
+                vec3 Ve = ...
+                vec3 H = ...
+               refl = fresnelSchlickRoughness(max(dot(H, Ve), 0.0),  mix(vec3(0.04)
+               , vec3(1.0f), hit.metallic), hit.roughness).y*hit.ao;	
+        }
+
+        return color;
+    }
 
 
 
