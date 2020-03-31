@@ -52,7 +52,9 @@ Rough Surface         |  Smooth Surface
 :-------------------------:|:-------------------------:
 ![](/Images/PBR_Intro/roughsurface.png)  |  ![](/Images/PBR_Intro/smoothsurface.png)
 
-Having stated all of this principles, our main goal remain the same, compute the color received by the eye for each pixel. We thus are interested in the color and intensity of light that either gets directly reflected from the surface to the eye and light that gets refracted and then re-emitted by the object through diffusion considering that all the light that gets absorb is lost. In addition, in this tutorial we will neglect the effect of scattering which gives more realistic results but is more costly to compute.
+Having stated all of this principles, our main goal remain the same, compute the color received by the eye for each pixel. More specifically, we are interested in the color and intensity of light that either gets directly reflected from the surface to the eye and light that gets refracted and then re-emitted by the object through diffusion considering that all the light that gets absorb is lost. In addition, in this tutorial we will neglect the effect of scattering which gives more realistic results but is more costly to compute.
+
+<p align="center"> <img src="/Images/PBR_Intro/normalsurface.png" alt="NormalSurf" style="width:700px;"/></p>
 
 The amount of light reflected at a specific direction at a given point of an object surface is given by the reflectance equation:
 
@@ -60,6 +62,10 @@ The amount of light reflected at a specific direction at a given point of an obj
 $$ L_o(p,v) = \int_A f_r(p,l,v) L_i(p,l)\, n \cdot l  \,dl $$
 
 Where p is the point of interest on the object surface, v the direction from p to the eye, $L_o$ the RGB color perceived by our eye from p, l the incident light direction , $L_i$ the incident light radiance on p from direction l, $f_r$ a function controlling the amount of light reflected to direction $v$ with respect to the material property at p and A the hemisphere surrounding p on which we integrate all incoming light directions.
+
+
+<p align="center"> <img src="/Images/PBR_Intro/AreaIntegrate.png" alt="AreaInt" style="width:700px;"/></p>
+
 
 In our ray tracing case, we restrict incoming light sources to a given number of point light sources. Thus, the integral over $A$ can be transformed into a sum over the different $p$ to light source directions.
 
