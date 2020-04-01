@@ -40,7 +40,10 @@ This tutorial is inspired from [https://learnopengl.com/PBR/Theory](https://lear
 A big challenge in computer graphics is to design shading models mimicking real-life lighting behaviour while allowing intuitive control of object materials. Is is also important to be able to make approximations that can provide real time feedback depending on the memory and computations time cost one can afford.
 
 In this tutorial, we are interested in Physically Based Rendering (PBR) models aim at simulating light behaviour in a more realistic way, approximating light related equations (unlike simpler models like the Phong model).
-One important aspect of those models is their energy conservative property stating that when interacting with a surface the amount of outgoing light is equal to the amount of incoming light. More precisely, the amount of light absorbed, scatterned and emitted by object surfaces is equal to the amount of light received on the surface.
+One important aspect of those models is their energy conservative property stating that when interacting with a surface the amount of outgoing light is equal to the amount of incoming light. More precisely, the amount of light absorbed, scattered and diffused by object surfaces is equal to the amount of light received on the surface.
+
+<p align="center"> <img src="/Images/PBR_Intro/LightInteraction.png" alt="LightInteract" style="width:700px;"/></p>
+
 
 Modeling this behaviour is highly correlated with how we represent object surfaces. Light interaction with object surfaces is modeled by the Snell-Descartes law which describes how incident light gets refracted and reflected on a flat surface.
 
@@ -75,7 +78,7 @@ $$ L_o(p,v) = \sum_l f_r(p,p-c_l,v) L_i(p,p-c_l)\, n \cdot \frac{(c_l-p)}{\left\
 The incoming reflectance $L_i(p,p-c_l)$ equals to the intensity of the light source $I$, multiplied by its color $C$, and weighted by an attenuation factor which depends on the distance to the source.
 In our case, we will consider that the intensity of light decrease with the square distance to the source:
 
- $$L_i(p,p-c_l) = \frac{IC}{{\left\lVert p - c_l\right\rVert}^2} $$.
+$$L_i(p,p-c_l) = \frac{IC}{{\left\lVert p - c_l\right\rVert}^2} $$.
 
 The only unknown left is the $f_r$ function that controls the amount of reflected light with respect to materials properties. This function is called a BRDF which stands for Bidirectional Reflective Distribution Function. Several functions were proposed to simulate real-life materials behavior but all of them respect the energy conservation law, meaning that the amount of outgoing light do not exceed the amount of incoming light and above all the later is divided between reflected and refracted light. An important property of the BRDF functions is that there are intresectly symmetric with respect to incoming and outgoing light because of the principle of reversibility of light.
 In our case, we will use the Cook-Torrance BRDF model composed of a diffuse and a specular part:
@@ -90,6 +93,8 @@ $$ k_d = 1 - k_s $$
 The $f_{l}$ function is the Lambertian diffusion distribution (which corresponds to the diffuse part of the Phong model). It considers that the diffused light is equally spread on all direcion:
  $$ f_l = \frac{C}{\pi} $$
 Where C is the albedo of the object surface at point $p$. We can notice that the dot product between the normal and the light direction is done outside this function and is still present in the sum of in going contribution. $\pi$ is a normalization factor which accounts for the fact that we integrate ingoing light over the hemisphere at point $p$.
+
+<p align="center"> <img src="/Images/PBR_Intro/diffuse.png" alt="Diffuse" style="width:700px;"/></p>
 
 At this point it is important to mention that we must differentiate between two type of material: metals and dielectric (non metal) materials.
 Indeed, while dielectric materials diffuse lights, it is not the case of metals that absorb all refracted light thus $k_d = 0$ for metals (with $k_s \leq 1$ because light still get refracted).
@@ -107,6 +112,8 @@ With $F_0$ being the base reflectivity of the material and $h = \frac{l + v}{\le
 This equation tells us that when $h$ and $v$ are perpendicular the amount of light reflect is at its maximum, in other words reflections occurs more at grazing angles. This effect can be easily noticed on puddles or wooden surfaces when looking from a top view or from a grazing angle. $F_0$ is computed as the amount of reflected light at normal incidence where $v$ and $l$ are collinear.
 This equation, only TODO only for dielectric.
 
+> **_NOTE:_**  One might notice that $h$ is replaced by $n$ in the original equation. This is perfectly right in a macroscopic point of view, but in our case we look at reflection in a microscopic scale meaning that the normal of the surface is determined by microfacet normals. Additionally the only case where the light is reflected into our eye is when $n = h$ which justify our use of h in this case, and this property is used to futher approximate th BRDF expression.
+
 
 Let us describe the microfacet model in more details. We mentioned the roughness parameter that plays a role in the amount of reflect light. More concretely, this parameter describe the amount of micro-facet that are aligned, where rough surface have a chaotic orientation distribution contrally to smooth surfaces:
 
@@ -116,6 +123,9 @@ Those microfacets represents the surface of the object and their orientation dir
 That's why smooth surfaces typically behave like mirrors while reflections are blurier on rough surfaces.
 We can now describe the role of the Normal Distribution Function D and the Geometric function G.
 D represent the amount of microfacet that are in the direction of the half vector $h$. This is the same as computing the amount of reflected light rays that are collinear to the view vector  $v$.
+
+<p align="center"> <img src="/Images/PBR_Intro/ndf_halfvector.png" alt="NDFHalfVector" style="width:700px;"/></p>
+
 In our case, we chose the GGX distribution function as NDF:
 
 
