@@ -110,9 +110,11 @@ $$ F_{Schlick}(h, v, F_0) = F_0 + (1 - F_0) (1 - (h \cdot v))^5 $$
 
 With $F_0$ being the base reflectivity of the material and $h = \frac{l + v}{\left\lVert l + v \right\rVert}$ the half vector which correspond to the normal one facet should have to directly reflect the light into the eye.
 This equation tells us that when $h$ and $v$ are perpendicular the amount of light reflect is at its maximum, in other words reflections occurs more at grazing angles. This effect can be easily noticed on puddles or wooden surfaces when looking from a top view or from a grazing angle. $F_0$ is computed as the amount of reflected light at normal incidence where $v$ and $l$ are collinear.
-This equation, only TODO only for dielectric.
+It is important to note that this equation can only be applyied to dielectric materials, especially because metallic materials absorb all refracted light. However, as $F_0$ for dielectric materials is usually low and  high for metallic materials, a common approximation is to use a common average $F_0$ for dielectic materials and the metal color for metallic materials. This is plausible because metallic $F_0$ are tinted and give to metals their color. Furthermore, following the metallic workflow we will consider that being metallic or dielectric is not a binary feature, meaning that one material can be sem-metallic with its metalness varying from $0$ to $1$.
 
 > **_NOTE:_**  One might notice that $h$ is replaced by $n$ in the original equation. This is perfectly right in a macroscopic point of view, but in our case we look at reflection in a microscopic scale meaning that the normal of the surface is determined by microfacet normals. Additionally the only case where the light is reflected into our eye is when $n = h$ which justify our use of h in this case, and this property is used to futher approximate th BRDF expression.
+
+<div style="width:image width px; font-size:100%; text-align:center;"><p align="center"> <img src="/Images/PBR_Intro/Fresnel_Vis.png" alt="FresnelEg" style="width:700px;"/></p>Fresnel</div>
 
 
 Let us describe the microfacet model in more details. We mentioned the roughness parameter that plays a role in the amount of reflect light. More concretely, this parameter describe the amount of micro-facet that are aligned, where rough surface have a chaotic orientation distribution contrally to smooth surfaces:
@@ -131,6 +133,8 @@ In our case, we chose the GGX distribution function as NDF:
 
 $$D = NDF_{GGX TR}(n, h, \alpha) = \frac{\alpha^2}{\pi((n \cdot h)^2 (\alpha^2 - 1) + 1)^2}$$
 
+<div style="width:image width px; font-size:100%; text-align:center;"><p align="center"> <img src="/Images/PBR_Intro/NDF_Vis.png" alt="NDFEg" style="width:700px;"/></p>NDF</div>
+
 
 The Geometric function simulates two phenomena that occurs between micro-facets namely obstruction and shadowing. In the two cases, either the incoming light cannot reach some micro-facets because there are in the shadows of others (shadowing) or reflected light is blocked by other facets (obstruction).
 
@@ -146,6 +150,9 @@ $$    G_S(n, v, k) =  \frac{n \cdot v}{(n \cdot v)(1 - k) + k }  $$
 Taking into account the two effects:
 
 $$   G(n,v,l,k) =  G_S(n, v, k)  G_S(n, l, k) $$
+
+
+<div style="width:image width px; font-size:100%; text-align:center;"><p align="center"> <img src="/Images/PBR_Intro/Geometry_Vis.png" alt="GeometryEg" style="width:700px;"/></p>Geometry</div>
 
 In this tutorial we made choices for approximation functions but several other were proposed in the literature, I invite you to take a look in the differences they have (the main behaviour remains the same though) link here.
 
@@ -280,7 +287,13 @@ Finally, two last changes have to be taken into consideration to complete our mo
         return color;
     }
 
+TODO gamma and HDR;
 
+For all Example A single point Light of intesity $I = 40$ and placed at (0,0,0) was used for producing those renderings. Left to right sphere roughness are 1, 0.9, 0.7, 0.5, 0.3, 0.1 with (.9,.1,.1) as color and are placed at (2.5,0,-2), (1.5,0,-2), (0.5,0,-2), (-0.5,0,-2), (-1.5,0,-2) and (-2.5,0,-2) with a radius of 0.3
+<div style="width:image width px; font-size:100%; text-align:center;"><p align="center"> <img src="/Images/PBR_Intro/dielec_no_refl.png" alt="DielectNoRefl" style="width:700px;"/></p>Dielectirc materials</div>
+<div style="width:image width px; font-size:100%; text-align:center;"><p align="center"> <img src="/Images/PBR_Intro/dielec_refl.png" alt="DielectRefl" style="width:700px;"/></p>Caption</div>
+<div style="width:image width px; font-size:100%; text-align:center;"><p align="center"> <img src="/Images/PBR_Intro/metal_no_refl.png" alt="MetalNoRefl" style="width:700px;"/></p>Caption</div>
+<div style="width:image width px; font-size:100%; text-align:center;"><p align="center"> <img src="/Images/PBR_Intro/metal_refl.png" alt="MetalRefl" style="width:700px;"/></p>Caption</div>
 
 
 
