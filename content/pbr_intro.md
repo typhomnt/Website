@@ -39,8 +39,8 @@ This tutorial is inspired from [https://learnopengl.com/PBR/Theory](https://lear
 
 A big challenge in computer graphics is to design shading models mimicking real-life lighting behaviour while allowing intuitive control of object materials. Is is also important to be able to make approximations that can provide real time feedback depending on the memory and computations time cost one can afford.
 
-In this tutorial, we are interested in Physically Based Rendering (PBR) models aim at simulating light behaviour in a more realistic way, approximating light related equations (unlike simpler models like the Phong model).
-One important aspect of those models is their energy conservative property stating that when interacting with a surface the amount of outgoing light is equal to the amount of incoming light. More precisely, the amount of light absorbed, scattered and diffused by object surfaces is equal to the amount of light received on the surface.
+In this tutorial, we are interested in Physically Based Rendering (PBR) models which aim at simulating light behaviour in a more realistic way, approximating light related equations (unlike simpler models like the Phong model).
+One important aspect of those models is their energy conservative property stating that when interacting with a surface the amount of outgoing light is equal to the amount of incoming light. More precisely, the amount of light absorbed, scattered and diffused by object surfaces is equal to the amount of light received on the surface. The figure below illustrate these phenomena.
 
 <p align="center"> <img src="/Images/PBR_Intro/LightInteraction.png" alt="LightInteract" style="width:700px;"/></p>
 
@@ -49,13 +49,13 @@ Modeling this behaviour is highly correlated with how we represent object surfac
 
 <p align="center"> <img src="/Images/PBR_Intro/snelldescartes.png" alt="SnellDescartes" style="width:700px;"/></p>
 
-However, in practice object surfaces are not completely flat, some are rougher than the others. Thus, the microfacet model was introduced which defines a surface by a continuous sequence of flat micro-surfaces that might be oriented differently, simulating the smooth vs rough aspect of surfaces. This roughness feature is very important as it controls the amount of light that gets reflected and refracted as well as the direction of outgoing light.
+However, in practice object surfaces are not completely flat, some are rougher than others. This is something noticable in real life especially when you look at specular reflection on different objects. More preciselly, rough surfaces tend to produce blurred reflections while smooth surfaces behave like mirrors. Thus, the microfacet model was introduced and defines a surface by a continuous sequence of flat micro-surfaces that might be oriented differently, simulating the smooth vs rough aspect of macro-surfaces. The roughness property is very important as it controls the amount of light that gets reflected and refracted as well as the direction of outgoing light.
 
 Rough Surface         |  Smooth Surface
 :-------------------------:|:-------------------------:
 ![](/Images/PBR_Intro/roughsurface.png)  |  ![](/Images/PBR_Intro/smoothsurface.png)
 
-Having stated all of this principles, our main goal remain the same, compute the color received by the eye for each pixel. More specifically, we are interested in the color and intensity of light that either gets directly reflected from the surface to the eye and light that gets refracted and then re-emitted by the object through diffusion considering that all the light that gets absorb is lost. In addition, in this tutorial we will neglect the effect of scattering which gives more realistic results but is more costly to compute.
+Having stated all of this principles, our main goal remain the same as in previous practicals, compute the color received by the eye for each pixel. More specifically, we are interested in the color and intensity of light that either gets directly reflected from the surface to the eye and light that gets refracted and then re-emitted by the object through diffusion (considering that all the light that gets absorbed is lost). In addition, in this tutorial we will neglect the effect of scattering which gives more realistic results but is more costly to compute.
 
 <p align="center"> <img src="/Images/PBR_Intro/normalsurface.png" alt="NormalSurf" style="width:700px;"/></p>
 
@@ -154,20 +154,91 @@ $$   G(n,v,l,k) =  G_S(n, v, k)  G_S(n, l, k) $$
 
 <div style="width:image width px; font-size:100%; text-align:center;"><p align="center"> <img src="/Images/PBR_Intro/Geometry_Vis.png" alt="GeometryEg" style="width:700px;"/></p>Geometry</div>
 
-In this tutorial we made choices for approximation functions but several other were proposed in the literature, I invite you to take a look in the differences they have (the main behaviour remains the same though) link here.
+In this tutorial we made choices for approximation functions but several others can be found in the literature, I invite you to take a look in the differences they have (the main behaviour remains the same though) link here.
 
 We are now ready to dive into the code. The base code can be found [here](/Files/MSIAM_Code.zip).
+First lets go back to our main function. We are working in a fragment shader displaying a simple quad perfectly fitting our window. For each pixel we cast rays from a virtual camera to the current pixel whose coordinates are given by the in variable $fragCoord$.
+
+    in vec2 fragCoord;
+    void main()
+    {   
+        Ray ray = generatePerspectiveRay(fragCoord);
+        outColor = vec4(trace(ray),1);
+    }
+
+In the fragment shader, I passed the viewmatrix of the trackball that is avaible in the transform.py file and used it to move the camera.
+Notice the inverse oprator applied on V because we want to recover the position of the camera in world space.
+
+    uniform mat4 V;
+    Ray generatePerspectiveRay(in vec2 p)
+    {
+        // p is the current pixel coord, in [-1,1]
+        float fov = 30; // Half angle
+        float D = 1./tan(radians(fov));
+        mat4 inv_view = inverse(V); // Get the matrix of the trackball
+
+        vec3 up = vec3(0,1,0);
+        vec3 front = vec3(0,0,-1);
+        vec3 right = cross(up,front);
+        return  Ray((inv_view*vec4(0,0,-D,1)).xyz,mat3(inv_view)*normalize(p.x*right + p.y*up*aspectRatio + D*front));
+    }
+
+
 First, we will add micro-facet properties to the HitSurface structure, adding roughness, ambient occlusion and metallic properties.
 
-    struct HitSurface
+    struct PBRMat
     {
-        vec3 hit_point;
-        vec3 normal;
         vec3 color;
         float roughness;
         float ao;
         float metallic;
     };
+
+    struct HitSurface
+    {
+        vec3 hit_point;
+        vec3 normal;
+        PBRMat material;
+    };
+
+
+
+Back to the trace loop. We declare $accum$ as the color of the pixel that is incremented at each ray bounce, the $mask$ variable indicate the intensity of the current ray which gradually decrease at each bounce. For each step we compute the intersection between the ray and the objects in the scene and store the nearest intersected object (with a positive distance) in the $io$ variable.
+The material used for the intersected object is choosen with respect to its index which is used to sample from an array of materials. We then copute the normal and the local illumination of the object 
+at the intersection point inside the directIllumination.
+
+
+    vec3 trace(in Ray r)
+    {
+        vec3 accum = vec3(0.0f);
+        vec3 mask = vec3(1.0f);
+        int nb_refl = 2; // Bounce number
+        float c_refl = 1.0f;
+        Ray curr_ray = r;
+        for(int i = 0 ; i <= nb_refl ; i++)
+        {
+            ISObj io = intersectObjects(curr_ray);
+            if(io.t >= 0)
+            {
+                PBRMat mat = pbr_mat[io.i];
+
+                HitSurface hs = HitSurface(curr_ray.ro + io.d*curr_ray.rd, computeNormal(io,curr_ray),mat);               
+
+                vec3 color = directIllumination(hs,curr_ray,c_refl);
+                accum = accum + mask * color;
+                mask = mask*c_refl;
+                curr_ray  = Ray(hs.hit_point + 0.001*hs.normal,reflect(curr_ray.rd,hs.normal));
+            }
+            else
+            {
+                break;
+            }
+        }
+
+        return accum;
+
+    }
+
 
 Next, in the same way we implemented the Phong illumination function, we will implement the PBR direct illumination function which will be called inside the directIllumination function.
 
@@ -289,11 +360,28 @@ Finally, two last changes have to be taken into consideration to complete our mo
 
 TODO gamma and HDR;
 
+    vec3 trace()
+    {
+        vec3 accum = vec3(0.0);
+        ...
+
+        //HDR
+        accum = accum / (accum+ vec3(1.0));
+        //Gamma
+        accum = pow(accum, vec3(1.0/2.2));
+    }
+
 For all Example A single point Light of intesity $I = 40$ and placed at (0,0,0) was used for producing those renderings. Left to right sphere roughness are 1, 0.9, 0.7, 0.5, 0.3, 0.1 with (.9,.1,.1) as color and are placed at (2.5,0,-2), (1.5,0,-2), (0.5,0,-2), (-0.5,0,-2), (-1.5,0,-2) and (-2.5,0,-2) with a radius of 0.3
 <div style="width:image width px; font-size:100%; text-align:center;"><p align="center"> <img src="/Images/PBR_Intro/dielec_no_refl.png" alt="DielectNoRefl" style="width:700px;"/></p>Dielectirc materials</div>
 <div style="width:image width px; font-size:100%; text-align:center;"><p align="center"> <img src="/Images/PBR_Intro/dielec_refl.png" alt="DielectRefl" style="width:700px;"/></p>Caption</div>
 <div style="width:image width px; font-size:100%; text-align:center;"><p align="center"> <img src="/Images/PBR_Intro/metal_no_refl.png" alt="MetalNoRefl" style="width:700px;"/></p>Caption</div>
 <div style="width:image width px; font-size:100%; text-align:center;"><p align="center"> <img src="/Images/PBR_Intro/metal_refl.png" alt="MetalRefl" style="width:700px;"/></p>Caption</div>
+
+
+<div style="width:image width px; font-size:100%; text-align:center;"><p align="center"> <img src="/Images/PBR_Intro/dielec_HDR_GAMMA_104.png" alt="MetalRefl" style="width:700px;"/></p>Caption</div>
+<div style="width:image width px; font-size:100%; text-align:center;"><p align="center"> <img src="/Images/PBR_Intro/dielec_HDR_GAMMA_2.png" alt="MetalRefl" style="width:700px;"/></p>Caption</div>
+<div style="width:image width px; font-size:100%; text-align:center;"><p align="center"> <img src="/Images/PBR_Intro/metal_HDR_GAMMA_104.png" alt="MetalRefl" style="width:700px;"/></p>Caption</div>
+<div style="width:image width px; font-size:100%; text-align:center;"><p align="center"> <img src="/Images/PBR_Intro/metal_HDR_GAMMA_2.png" alt="MetalRefl" style="width:700px;"/></p>Caption</div>
 
 
 
