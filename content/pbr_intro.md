@@ -52,7 +52,13 @@ Simulating this behaviour is highly correlated with how we represent object surf
 
 <p align="center"> <img src="/Images/PBR_Intro/snelldescartes.png" alt="SnellDescartes" style="width:700px;"/></p>
 
-However, in practice object surfaces are not completely flat, some are rougher than others. This is something noticable in real life, especially when you look at specular reflection on different objects. More preciselly, rough surfaces tend to produce blurred reflections while smooth surfaces behave like mirrors. Thus, the microfacet model was introduced and defines a surface by a continuous sequence of flat micro-surfaces that might be oriented differently, simulating the smooth vs rough aspect of macro-surfaces. The roughness property of a material plays a meaningful role in light behavior as it controls the amount of light that gets reflected and refracted as well as the direction of outgoing light.
+However, in practice object surfaces are not completely flat, some are rougher than others. This is something noticeable in real life, especially when you look at specular reflection on different objects. More precisely, rough surfaces tend to produce blurred reflections while smooth surfaces behave like mirrors. 
+
+Rough Surface         |  Smooth Surface
+:-------------------------:|:-------------------------:
+<p align="center"> <img src="/Images/PBR_Intro/rough_photo.png" alt="RoughPhoto" style="width:700px;"/></p>  | <p align="center"> <img src="/Images/PBR_Intro/smooth_photo.png" alt="SmoothPhoto" style="width:700px;"/></p>
+
+Thus, the microfacet model was introduced and defines a surface by a continuous sequence of flat micro-surfaces that might be oriented differently, simulating the smooth vs rough aspect of macro-surfaces. The roughness property of a material plays a meaningful role in light behavior as it controls the amount of light that gets reflected and refracted as well as the direction of outgoing light.
 
 Rough Surface         |  Smooth Surface
 :-------------------------:|:-------------------------:
@@ -87,7 +93,7 @@ $$L_i(p,p-c_l) = \frac{IC}{{\left\lVert p - c_l\right\rVert}^2} $$.
 
 ## The Bidirectional Reflective Distribution Function (BRDF) ##
 
-The only unknown left is the $f_r$ function that controls the amount of reflected light with respect to materials properties. This function is called a BRDF which stands for Bidirectional Reflective Distribution Function. Several functions were proposed to simulate real-life materials behavior, all of them respect the energy conservation law, meaning that the amount of outgoing light do not exceed the amount of incoming light and above all the later is divided between reflected and refracted light. An other important property of the BRDF functions is that there are intresectly symmetric with respect to incoming and outgoing light because of the principle of reversibility of light.
+The only unknown left is the $f_r$ function that controls the amount of reflected light with respect to materials properties. This function is called a BRDF which stands for Bidirectional Reflective Distribution Function. Several functions were proposed to simulate real-life materials behavior, all of them respect the energy conservation law, meaning that the amount of outgoing light do not exceed the amount of incoming light and above all the later is divided between reflected and refracted light. Another important property of the BRDF functions is that there are intresectly symmetric with respect to incoming and outgoing light because of the principle of reversibility of light.
 In our case, we will use the Cook-Torrance BRDF model composed of a diffuse and a specular part:
 
 
@@ -117,8 +123,12 @@ $$ F_{Schlick}(h, v, F_0) = F_0 + (1 - F_0) (1 - (h \cdot v))^5 $$
 
 With $F_0$ being the base reflectivity of the material and $h = \frac{l + v}{\left\lVert l + v \right\rVert}$ the half vector which corresponds to the normal one facet must have to directly reflect the light into the eye.
 
-This equation tells us that when $h$ and $v$ are perpendicular the amount of reflected light is at its maximum, in other words reflections occurs more at grazing angles. This effect is especially noticable on puddles or wooden surfaces when looking from a top view or from a grazing angle. $F_0$ is computed as the amount of reflected light at normal incidence where $v$ and $l$ are collinear.
-It is important to note that this equation can only be applyied to dielectric materials, especially because metallic materials absorb all refracted light. However, as $F_0$ for dielectric materials is usually low and  high for metallic materials, a common approximation is to use a common average $F_0$ for dielectic materials and the metal color as $F_O$ for metallic materials. This is plausible because metallic $F_0$ are tinted and give to metals their color. Furthermore, following the metallic workflow we will consider that being metallic or dielectric is not a binary feature, meaning that one material can be sem-metallic with its metalness varying from $0$ to $1$.
+This equation tells us that when $h$ and $v$ are perpendicular the amount of reflected light is at its maximum, in other words reflections occurs more at grazing angles. This effect is especially noticeable on puddles or wooden surfaces when looking from a top view or from a grazing angle. 
+
+<p align="center"> <img src="/Images/PBR_Intro/Fresnel_Photo.png" alt="FresnelPhoto" style="width:700px;"/></p>
+
+$F_0$ is computed as the amount of reflected light at normal incidence where $v$ and $l$ are collinear.
+It is important to note that this equation can only be applied to dielectric materials, especially because metallic materials absorb all refracted light. However, as $F_0$ for dielectric materials is usually low and  high for metallic materials, a common approximation is to use a common average $F_0$ for dielectic materials and the metal color as $F_O$ for metallic materials. This is plausible because metallic $F_0$ are tinted and give to metals their color. Furthermore, following the metallic workflow we will consider that being metallic or dielectric is not a binary feature, meaning that one material can be sem-metallic with its metalness varying from $0$ to $1$.
 
 > **_NOTE:_**  One might notice that $h$ is replaced by $n$ in the original equation. This is perfectly right in a macroscopic point of view. However, in our case we look at reflections in a microscopic scale, meaning that the normal of the surface is determined by microfacet normals. Additionally the only case where the light is reflected into our eye is when $n = h$ which justify our use of h in this case. This property is further used to approximate the BRDF final expression.
 
@@ -128,7 +138,7 @@ It is important to note that this equation can only be applyied to dielectric ma
 Let us describe the microfacet model in more details and focus on the roughness parameter that plays a role in the amount of reflected light. More concretely, this parameter describes the amount of micro-facet that are aligned in the same direction; in particular, rough surfaces have a chaotic orientation distribution while smooth surfaces facets are oriented in a single direction (the normal).
 
 As microfacets represent the surface of the object, their orientation directly affects the direction of reflected light.
-That's why smooth surfaces typically behave like mirrors while reflections appear blurier on rough surfaces.
+That's why smooth surfaces typically behave like mirrors while reflections appear blurrier on rough surfaces.
 
 We can now describe the role of the Normal Distribution Function D and the Geometric function G.
 D represent the amount of microfacet that are aligned with the half vector $h$. This is the same as computing the amount of reflected light rays that are collinear to the view vector $v$.
@@ -140,9 +150,9 @@ In our case, we chose the GGX distribution function as NDF:
 
 $$D = NDF_{GGX TR}(n, h, \alpha) = \frac{\alpha^2}{\pi((n \cdot h)^2 (\alpha^2 - 1) + 1)^2}$$
 
-<div style="width:image width px; font-size:100%; text-align:center;"><p align="center"> <img src="/Images/PBR_Intro/NDF_Vis.png" alt="NDFEg" style="width:700px;"/></p>GGX Normal Distribution Function computed on our test scene with varying rougthness (left: completly rough. right: smooth) </div>
+<div style="width:image width px; font-size:100%; text-align:center;"><p align="center"> <img src="/Images/PBR_Intro/NDF_Vis.png" alt="NDFEg" style="width:700px;"/></p>GGX Normal Distribution Function computed on our test scene with varying roughness (left: rough surface. right: smooth surface) </div>
 
-This function behaves like a diract when $\alpha = 0$ (smooth surface) and becomes flatter and flatter when $\alpha$ increases until it reaches a constant function $\frac{1}{\pi}$. That is why this formula produces small rounded highlight on smooth surfaces which are completly spread across the object on rough surfaces. 
+This function behaves like a diract when $\alpha = 0$ (smooth surface) and becomes flatter and flatter when $\alpha$ increases until it reaches a constant function $\frac{1}{\pi}$. That is why this formula produces small rounded highlight on smooth surfaces which are completely spread across the object on rough surfaces. 
 
 
 The Geometric function simulates two phenomena that occurs between micro-facets namely obstruction and shadowing. In the two cases, either the incoming light cannot reach some micro-facets because there are in the shadows of others (shadowing) or reflected light is blocked by other facets (obstruction).
@@ -160,12 +170,12 @@ Taking into account the two effects:
 
 $$   G(n,v,l,k) =  G_S(n, v, k)  G_S(n, l, k) $$
 
-This function intuitively models the fact that at grazing angle with respect to the normal, either incoming light rays of reflected rays have a chance to collide with other facets. This probability is gets higher when the roughness of the surface increases, which is pretty intuitivve because the micro-facet gets more chaotic and do not face a single direction.
+This function intuitively models the fact that at grazing angle with respect to the normal, either incoming light rays of reflected rays have a chance to collide with other facets. This probability is gets higher when the roughness of the surface increases, which is pretty intuitive because the micro-facet gets more chaotic and do not face a single direction.
 
 
-<div style="width:image width px; font-size:100%; text-align:center;"><p align="center"> <img src="/Images/PBR_Intro/Geometry_Vis.png" alt="GeometryEg" style="width:700px;"/></p>Geometry function computed on our test scene (left: completly rough. right: smooth).</div>
+<div style="width:image width px; font-size:100%; text-align:center;"><p align="center"> <img src="/Images/PBR_Intro/Geometry_Vis.png" alt="GeometryEg" style="width:700px;"/></p>Geometry function computed on our test scene (left: rough surface. right: smooth surface).</div>
 
-In this tutorial we made choices for approximation functions but several others can be found in the literature. I invite you to take a look in the differences they have (the main behaviour remains the same though) link here.
+In this tutorial we made choices for approximation functions but several others can be found in the literature (see **References** at the bottom of the page), I invite you to take a look at BRDF comparison articles.
 
 
 ## Coding Time ##
@@ -180,8 +190,8 @@ First, lets go back to our main function. We are working inside a fragment shade
         outColor = vec4(trace(ray),1);
     }
 
-Inside the fragment shader, I passed the view matrix $V$ of the trackball that is avaible from the transform.py file and used it to move the camera.
-Notice the inverse oprator applied on V as we want to recover the position of the camera in world space.
+Inside the fragment shader, I passed the view matrix $V$ of the trackball that is available from the transform.py file and used it to move the camera.
+Notice the inverse operator applied on V as we want to recover the position of the camera in world space.
 
     uniform mat4 V;
     Ray generatePerspectiveRay(in vec2 p)
@@ -198,7 +208,7 @@ Notice the inverse oprator applied on V as we want to recover the position of th
     }
 
 Next we declare two new structures: the HitSurface structure containing a ray-scene intersection point, the surface normal at this point as well as its material properties expressed as a PBRMat.
-As metionned above these materials contain roughness and metallic properties. We also add an ambient occlusion property which is used when computing an ambient ligthing term in the rendering loop.
+As mentioned above these materials contain roughness and metallic properties. We also add an ambient occlusion property which is used when computing an ambient lighting term in the rendering loop.
 
     struct PBRMat
     {
@@ -219,8 +229,8 @@ As metionned above these materials contain roughness and metallic properties. We
 
 Back to the trace function. We declare $accum$ as the color of the pixel that is incremented at each ray bounce, the $mask$ variable indicates the intensity of the current ray which gradually decrease at each bounce. For each step we compute the intersection between the ray and the objects in the scene and store the nearest intersected object (with a positive distance) in the $io$ variable.
 
-The material used for the intersected object is choosen with respect to its index which is used to sample from an array of materials. We then compute the normal and the local illumination of the object 
-at the intersection point inside the directIllumination function. The reflection intensity factor $c_{refl}$ is updated inside this function. Note, that the reflected ray origin is slightly shifted in the normal direction to avoid  wrong self interction. This tip is also applied when computing the shadow ray.
+The material used for the intersected object is chosen with respect to its index which is used to sample from an array of materials. We then compute the normal and the local illumination of the object 
+at the intersection point inside the directIllumination function. The reflection intensity factor $c_{refl}$ is updated inside this function. Note, that the reflected ray origin is slightly shifted in the normal direction to avoid  wrong self intersection. This tip is also applied when computing the shadow ray.
 
 
     vec3 trace(in Ray r)
@@ -254,7 +264,7 @@ at the intersection point inside the directIllumination function. The reflection
 
     }
 
-Inside the directIllumination function, we iterate through each light of the scene and determine if the current interection point is in the shadow of an object (which can be it self) by casting a ray in the direction of the light. If the intersection point is actually lighted, we compute its radiance inside the PBR function. Otherwise we assign an ambient color weighted by the ambient occulsion factor of the material. Finally we update the reflection intensity factor by computing the length of th Fresnel term.
+Inside the directIllumination function, we iterate through each light of the scene and determine if the current intersection point is in the shadow of an object (which can be it self) by casting a ray in the direction of the light. If the intersection point is actually lighted, we compute its radiance inside the PBR function. Otherwise we assign an ambient color weighted by the ambient occlusion factor of the material. Finally we update the reflection intensity factor by computing the length of th Fresnel term.
 
     vec3 directIllumination(in HitSurface hit,in Ray r,inout float refl)
     {
@@ -414,7 +424,7 @@ Finally, we compute the outgoing radiance as the product of the incoming radianc
 
 And that's it, we set up everything to compute a more realistic shading of our scene, you can already produce new raytraced results using this setup.
 
-Below, are rendering examples of the same scene with variying materials. It contains a single white point Light of intesity $I = 40$ and located at (0,0,0). Left to right spheres roughness are 1, 0.9, 0.7, 0.5, 0.3, 0.1 with (.9,.1,.1) as color and are located at (2.5,0,-2), (1.5,0,-2), (0.5,0,-2), (-0.5,0,-2), (-1.5,0,-2) and (-2.5,0,-2) with a radius of 0.3.
+Below, are rendering examples of the same scene with varying materials. It contains a single white point Light of intensity $I = 40$ and located at (0,0,0). Left to right spheres roughness are 1, 0.9, 0.7, 0.5, 0.3, 0.1 with (.9,.1,.1) as color and are located at (2.5,0,-2), (1.5,0,-2), (0.5,0,-2), (-0.5,0,-2), (-1.5,0,-2) and (-2.5,0,-2) with a radius of 0.3.
 
 <div style="width:image width px; font-size:100%; text-align:center;"><p align="center"> <img src="/Images/PBR_Intro/dielec_no_refl.png" alt="DielectNoRefl" style="width:700px;"/></p>Dielectric materials without reflection (metalness = 0)</div>
 <div style="width:image width px; font-size:100%; text-align:center;"><p align="center"> <img src="/Images/PBR_Intro/dielec_refl.png" alt="DielectRefl" style="width:700px;"/></p>Dielectric materials with reflection (metalness = 0)</div>
@@ -423,7 +433,7 @@ Below, are rendering examples of the same scene with variying materials. It cont
 
 ## One last step: HDR and Gamma correction ##
 
-So far we are able to render scenes in a more realistic way. Still, you can notice that if you choose a high intesity for your lights, the results also gets highly saturated, which is already the case in the above examples. This situation is to be expected because radiance can have value bigger than 1. Consequently, we need to find a way to account for High Dynamic Range (HDR) of radiance and process the computed values such that everything is remapped between 0 and 1. I won't enter into details here as it is not the subject of this tutorial. We basically use the Reinhard operator to correct our input colors, remapping them inside the $\[0;1\]^3$ space with the function $C = \frac{C}{C+1}$.
+So far we are able to render scenes in a more realistic way. Still, you can notice that if you choose a high intensity for your lights, the results also gets highly saturated, which is already the case in the above examples. This situation is to be expected because radiance can have value bigger than 1. Consequently, we need to find a way to account for High Dynamic Range (HDR) of radiance and process the computed values such that everything is remapped between 0 and 1. I won't enter into details here as it is not the subject of this tutorial. We basically use the Reinhard operator to correct our input colors, remapping them inside the $\[0;1\]^3$ space with the function $C = \frac{C}{C+1}$.
 
 Finally, we also need to take into account the color shift that screens produce in response to color values and depending on what we call their gamma value defining this response. Hence, we proceed to a gamma correction of the output colors which rectifies the shift. Again this will be covered in another tutorial, however be careful that this gamma value depends on the monitor configuration you are using.
 
@@ -440,7 +450,6 @@ Finally, we also need to take into account the color shift that screens produce 
     }
 
 
-
 Here are the corrected images of the previous examples with different gamma values.
 
 <div style="width:image width px; font-size:100%; text-align:center;"><p align="center"> <img src="/Images/PBR_Intro/dielec_HDR_GAMMA_104.png" alt="MetalRefl" style="width:700px;"/></p>Dielectric materials with reflection (metalness = 0) HDR and Gamma = 1</div>
@@ -449,10 +458,32 @@ Here are the corrected images of the previous examples with different gamma valu
 <div style="width:image width px; font-size:100%; text-align:center;"><p align="center"> <img src="/Images/PBR_Intro/metal_HDR_GAMMA_2.png" alt="MetalRefl" style="width:700px;"/></p>Metallic material with reflection (metalness = 1) HDR and Gamma = 2.2</div>
 
 
-## What is Left ##
+## And then ? What's Next ? ##
 
-Many thing are left, it depends on which direction you want to pursue, you could go into path tracing and ignore the approximations done here or on the countrary go for more real-time rendering effects like IBL, SSAO, SSR and so on. However, There is one aspect that should be improved in our current raytracing context which is the reflections. Our current way of handling reflection for rough surfaces is wrong as we should cast several rays from the each intersection point and average the resuls in order to get the blurred reflection I was mentionning at the beginning of the tutorial.
+Rendering is a huge topic and we covered a very small part of it. What is next entirely depends on which direction you want to pursue this journey; you could go into path tracing and ignore real-time approximations or on the contrary go for more real-time rendering effects like Image Based Lighting (IBL), Screen Space Ambient Occlusion (SSAO), Screen Space Reflections (SSR) and so on. 
+
+However, There is one aspect that should be improved in our current raytracing context which is the way we handle reflections. Indeed, currently in our ray-tracing context we cast only one reflected ray from intersection point. While it is accurate to do so for smooth surfaces, it is totally wrong for rough surfaces as we should cast several rays from the each intersection point and average the results in order to get the blurred reflections like I mentioned at the beginning of the tutorial. This is something you could try to implement in a naive manner and see how reflections are improved. 
+
+Finally, I want you to be aware that BRDF models are generalizable and can take into account more light dimensionality, in particular:
+
+- BTDF: Bidirectionnal Transmission Distribution Function 5D: Same as BRDF for opposite side of surface
+- SVBRDF: Spatially Varying BRDF 6D: changes over the surface position
+- BSSRDF: Bidirectionnal Surface Scattering DF 8D: light exits at another location
+- BSDF: Bidirectionnal Scattering Distribution Function XD: General formulation
 
 ## References ##
+
+Open GL Tutorials: [https://learnopengl.com/](https://learnopengl.com/)  
+
+Siggraph Courses: [http://blog.selfshadow.com/publications/s2013-shading-course/](http://blog.selfshadow.com/publications/s2013-shading-course/) [http://blog.selfshadow.com/publications/s2014-shading-course/](http://blog.selfshadow.com/publications/s2014-shading-course/) 
+
+Real Time Rendering Advances: [http://advances.realtimerendering.com/](http://advances.realtimerendering.com/)
+
+BRDF Model Comparison: [https://diglib.eg.org/handle/10.2312/EGWR.EGSR05.117-126](https://diglib.eg.org/handle/10.2312/EGWR.EGSR05.117-126)
+
+Path tracing and Global Illumination: [http://www.graphics.stanford.edu/courses/cs348b-01/course29.hanrahan.pdf](http://www.graphics.stanford.edu/courses/cs348b-01/course29.hanrahan.pdf) [http://web.cs.wpi.edu/~emmanuel/courses/cs563/write_ups/zackw/realistic_raytracing.html](http://web.cs.wpi.edu/~emmanuel/courses/cs563/write_ups/zackw/realistic_raytracing.html)
+
+GLSL / Shadertoy: [https://www.opengl.org/documentation/glsl/](https://www.opengl.org/documentation/glsl/) [https://www.shadertoy.com/](https://www.shadertoy.com/) [http://www.iquilezles.org/](http://www.iquilezles.org/)
+
 
 
