@@ -424,7 +424,7 @@ Finally, we compute the outgoing radiance as the product of the incoming radianc
 
 And that's it, we set up everything to compute a more realistic shading of our scene, you can already produce new raytraced results using this setup.
 
-Below, are rendering examples of the same scene with varying materials. It contains a single white point Light of intensity $I = 40$ and located at (0,0,0). Left to right spheres roughness are 1, 0.9, 0.7, 0.5, 0.3, 0.1 with (.9,.1,.1) as color and are located at (2.5,0,-2), (1.5,0,-2), (0.5,0,-2), (-0.5,0,-2), (-1.5,0,-2) and (-2.5,0,-2) with a radius of 0.3.
+Below, are rendering examples of the same scene with varying materials. It contains a single white point Light of intensity $I = 40$ and located at (0,0,0). Left to right spheres roughness are 1, 0.9, 0.7, 0.5, 0.3, 0.1 with (.1,.2,.8) as color and are located at (2.5,0,-2), (1.5,0,-2), (0.5,0,-2), (-0.5,0,-2), (-1.5,0,-2) and (-2.5,0,-2) with a radius of 0.3.
 
 <div style="width:image width px; font-size:100%; text-align:center;"><p align="center"> <img src="/Images/PBR_Intro/dielec_no_refl.png" alt="DielectNoRefl" style="width:700px;"/></p>Dielectric materials without reflection (metalness = 0)</div>
 <div style="width:image width px; font-size:100%; text-align:center;"><p align="center"> <img src="/Images/PBR_Intro/dielec_refl.png" alt="DielectRefl" style="width:700px;"/></p>Dielectric materials with reflection (metalness = 0)</div>
@@ -457,6 +457,9 @@ Here are the corrected images of the previous examples with different gamma valu
 <div style="width:image width px; font-size:100%; text-align:center;"><p align="center"> <img src="/Images/PBR_Intro/metal_HDR_GAMMA_104.png" alt="MetalRefl" style="width:700px;"/></p>Metallic material with reflection (metalness = 1) HDR and Gamma = 1</div>
 <div style="width:image width px; font-size:100%; text-align:center;"><p align="center"> <img src="/Images/PBR_Intro/metal_HDR_GAMMA_2.png" alt="MetalRefl" style="width:700px;"/></p>Metallic material with reflection (metalness = 1) HDR and Gamma = 2.2</div>
 
+You can also play with the different parameters and get various materials:
+ 
+<div style="width:image width px; font-size:100%; text-align:center;"><p align="center"> <img src="/Images/PBR_Intro/Final_Eg.png" alt="FinalEg" style="width:700px;"/></p>Various materials, Gamma = 1</div>
 
 ## And then ? What's Next ? ##
 
