@@ -1,7 +1,7 @@
 baseURL = "http://typhomnt.github.io/"
 languageCode = "en-us"
 title = "Maxime Garcia"
-theme = "ananke"
+theme = "academic"
 
 
 ignorefiles = [ "content/Utils/*" ]

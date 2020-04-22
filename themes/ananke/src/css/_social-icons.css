@@ -1,4 +1,4 @@
-.facebook, .twitter, .instagram, .youtube, .github, .gitlab, .linkedin, .medium {
+.facebook, .twitter, .instagram, .youtube, .github, .gitlab, .keybase, .linkedin, .medium, .mastodon, .slack, .stackoverflow {
   fill: #BABABA;
 }
 
@@ -35,10 +35,26 @@
   fill: #FC6D26;
 }
 
+.keybase:hover {
+  fill: #3d76ff;
+}
+
 .linkedin:hover {
   fill: #0077b5
 }
 
 .medium:hover {
   fill: #0077b5
+}
+
+.mastodon:hover {
+  fill: #3088d4;
+}
+
+.slack:hover {
+  fill: #E01E5A;
+}
+
+.stackoverflow:hover {
+  fill: #f48024;
 }
