@@ -12,7 +12,7 @@ The first one was, of course, what is NPR ? Looking at the wikipedia page at thi
 In my main reseach, I particularly focus on  expressing those styles through 3D content. The main reason I chose this path is because, while I am constantly mesmerised by what 2D digital artist like WLOP or Kuvshinov Ilya are producing, I always find 2D content as "incomplete" somehow. To be more specific, I feel like the integrety of what 2D artist are creating only belongs to their creators as their are the only one who can draw faithfully their characters, buildings, landscapes and environment. I know that this assertion is not completly true, because this skill can be transmitted like it as been done for series like Asterix and Obelix. Still, in comparison building 3D scene with models, illumination scheme, materials, textures, etc... better ensures the faithfullness of one universe and manipulate contents that are highly reusable. In fact, this comparison between 2D and 3D came clearer to me when I learned how video games and 3D animated movies were made. Indeed, one of the first step is to draw concept art of characters, weapons, environment and so on. Then 3D artists build 3D content from those concepts. While studios prefer 3D content over 2D for financial reasons and because skilled 2D animators are difficult to find, I believe that the overall integrety is better preserved.  
 
 
-Closing this paranthesis, I want to go bakc to the objective of NPR which is still quite vague, I wanted to be more precise on the styles I want to express especially through references. In the litterature and on the web we can find tons of different styles so I had to classify them. Actually, a lot of them are referenced by the tool used to create the paintings or the drawings, like Watercolor, Stippling, Pastel and so on. 
+Closing this paranthesis, lets go back to the objective of NPR I described above and which is still quite vague. Thus, I wanted to be more precise on the styles I want to express especially through references. In the litterature and on the web we can find tons of different styles so I had to classify them. Actually, a lot of them are referenced by the tool used to create the paintings or the drawings, like Watercolor, Stippling, Pastel and so on. 
 
 The tool is actually composed of three components: the drawing material (paint, ink , charcoal), the brush stroke (pen, pencil, brushes) and the texture of the support. At this point I have to mention that I consider digital painting as providing new elements to those components.
 
@@ -20,7 +20,8 @@ These tool are then the mean of creating 2D content but it does not define the a
 In my current research I decided to decompose the actual content as a combination of Line Arting, Shading and Brushing.
 
 ### Line art ###
-Line Art depicts object silhouette and inner details with a varying thickness. While 2D cartoons use them a lot, many other styles do not include line art at all.
+Line Art depicts object silhouette and inner details with a varying thickness. While 2D cartoons use them a lot, many other styles do not include line art at all. 
+In our 3D context, there are various ways of computing silhouttes and  
 
 
 ### Shading ###
