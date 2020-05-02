@@ -6,7 +6,7 @@ math: true
 html : true
 css: style.css
 ---
-
+<!--
 <script type="text/x-mathjax-config">
 MathJax.Hub.Config({
   tex2jax: {
@@ -37,6 +37,7 @@ MathJax.Hub.Config({
 <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
 </script>
 
+-->
 
 This tutorial is inspired from [https://learnopengl.com/PBR/Theory](https://learnopengl.com/PBR/Theory) and adapted for the ray-tracing course available [here](../raytracing_practs).
 
@@ -48,14 +49,14 @@ In this tutorial, we are interested in Physically Based Rendering (PBR) models w
 One important aspect of those models is their energy conservative property stating that when interacting with a surface, the amount of outgoing light is equal to the amount of incoming light. More precisely, the amount of light absorbed, scattered and diffused by object surfaces is equal to the amount of light hitting the surface. The figure below illustrates these phenomena.
 
 {{< figure library="true" src="/Images/PBR_Intro/LightInteraction.png" title="" lightbox="true" >}}
-<p align="center"><img src="/Images/PBR_Intro/LightInteraction.png" alt="LightInteract" style="width:700px;"/></p>
+<!-- <p align="center"><img src="/Images/PBR_Intro/LightInteraction.png" alt="LightInteract" style="width:700px;"/></p> -->
 
 ## Surface Representation: Micro-Facet model ##
 
 Simulating this behaviour is highly correlated with how we represent object surfaces. Indeed, light interaction with object surfaces is modeled by the Snell-Descartes law which describes how incident light gets refracted and reflected on a flat surface.
 
 {{< figure library="true" src="/Images/PBR_Intro/snelldescartes.png" title="" lightbox="true" >}}
-<p align="center"> <img src="/Images/PBR_Intro/snelldescartes.png" alt="SnellDescartes" style="width:700px;"/></p>
+<!-- <p align="center"> <img src="/Images/PBR_Intro/snelldescartes.png" alt="SnellDescartes" style="width:700px;"/></p> -->
 
 However, in practice object surfaces are not completely flat, some are rougher than others. This is something noticeable in real life, especially when you look at specular reflection on different objects. More precisely, rough surfaces tend to produce blurred reflections while smooth surfaces behave like mirrors. 
 
@@ -74,7 +75,7 @@ Rough Surface         |  Smooth Surface
 Having stated all this principles, our main goal remains unchanged, compute the color received by the eye (camera) for each pixel of the output image displayed on our screen. More specifically, we are interested in the color and intensity of light that either gets directly reflected from the surface to the eye or that gets refracted and then re-emitted by the object through diffusion (considering that all the light that gets absorbed is lost). On the other hand, in this tutorial we neglect the effect of scattering which gives more realistic results (especially useful when rendering skin) but is more costly to compute.
 
 {{< figure library="true" src="/Images/PBR_Intro/normalsurface.png" title="" lightbox="true" >}}
-<p align="center"> <img src="/Images/PBR_Intro/normalsurface.png" alt="NormalSurf" style="width:700px;"/></p>
+<!-- <p align="center"> <img src="/Images/PBR_Intro/normalsurface.png" alt="NormalSurf" style="width:700px;"/></p> -->
 
 The amount of light that gets into a specific direction from a given point on an object surface is governed by laws of physics and more specifically it is given by the reflectance equation:
 
@@ -85,7 +86,7 @@ Where $p$ is the point of interest on the object surface (receiving light), $v$ 
 
 
 {{< figure library="true" src="/Images/PBR_Intro/AreaIntegrate.png" title="" lightbox="true" >}}
-<p align="center"> <img src="/Images/PBR_Intro/AreaIntegrate.png" alt="AreaInt" style="width:700px;"/></p>
+<!-- <p align="center"> <img src="/Images/PBR_Intro/AreaIntegrate.png" alt="AreaInt" style="width:700px;"/></p> -->
 
 
 In this tutorial, we further restrict incoming light sources to a given number of point light sources. Thus, the integral over $A$ can be transformed into a sum over the different light sources.
@@ -115,7 +116,7 @@ The $f_{l}$ function is the Lambertian diffusion distribution (which corresponds
 Where C is the albedo of the object surface at point $p$. We can notice that the dot product between the normal and the light direction is done outside this function and is still present in the sum of in going contribution. $\pi$ is a normalization factor which accounts for the fact that we integrate ingoing light over the hemisphere at point $p$.
 
 {{< figure library="true" src="/Images/PBR_Intro/diffuse.png" title="" lightbox="true" >}}
-<p align="center"> <img src="/Images/PBR_Intro/diffuse.png" alt="Diffuse" style="width:700px;"/></p>
+<!--  <p align="center"> <img src="/Images/PBR_Intro/diffuse.png" alt="Diffuse" style="width:700px;"/></p> -->
 
 At this point it is important to mention that we must differentiate between two type of material: **metals** and **dielectric** (non metal) materials.
 Indeed, while dielectric materials diffuse light, it is not the case of metals that absorb all refracted light. As a consequence, $k_d = 0$ for metals (with $k_s \leq 1$ because light still get refracted).
@@ -134,7 +135,7 @@ With $F_0$ being the base reflectivity of the material and $h = \frac{l + v}{\le
 This equation tells us that when $h$ and $v$ are perpendicular the amount of reflected light is at its maximum, in other words reflections occurs more at grazing angles. This effect is especially noticeable on puddles or wooden surfaces when looking from a top view or from a grazing angle. 
 
 {{< figure library="true" src="/Images/PBR_Intro/Fresnel_Photo.png" title="" lightbox="true" >}}
-<p align="center"> <img src="/Images/PBR_Intro/Fresnel_Photo.png" alt="FresnelPhoto" style="width:700px;"/></p>
+<!-- <p align="center"> <img src="/Images/PBR_Intro/Fresnel_Photo.png" alt="FresnelPhoto" style="width:700px;"/></p> -->
 
 $F_0$ is computed as the amount of reflected light at normal incidence where $v$ and $l$ are collinear.
 It is important to note that this equation can only be applied to dielectric materials, especially because metallic materials absorb all refracted light. However, as $F_0$ for dielectric materials is usually low and  high for metallic materials, a common approximation is to use a common average $F_0$ for dielectic materials and the metal color as $F_O$ for metallic materials. This is plausible because metallic $F_0$ are tinted and give to metals their color. Furthermore, following the metallic workflow we will consider that being metallic or dielectric is not a binary feature, meaning that one material can be sem-metallic with its metalness varying from $0$ to $1$.
@@ -142,7 +143,7 @@ It is important to note that this equation can only be applied to dielectric mat
 > **_NOTE:_**  One might notice that $h$ is replaced by $n$ in the original equation. This is perfectly right in a macroscopic point of view. However, in our case we look at reflections in a microscopic scale, meaning that the normal of the surface is determined by microfacet normals. Additionally the only case where the light is reflected into our eye is when $n = h$ which justify our use of h in this case. This property is further used to approximate the BRDF final expression.
 
 {{< figure library="true" src="/Images/PBR_Intro/Fresnel_Vis.png" title="Fresnel coefficient length computed on our test scene (see below). The final amount has been remapped for visualisation purpose." lightbox="true" >}}
-<div style="width:image width px; font-size:100%; text-align:center;"><p align="center"> <img src="/Images/PBR_Intro/Fresnel_Vis.png" alt="FresnelEg" style="width:700px;"/></p>Fresnel coefficient length computed on our test scene (see below). The final amount has been remapped for visualisation purpose.</div>
+<!--  <div style="width:image width px; font-size:100%; text-align:center;"><p align="center"> <img src="/Images/PBR_Intro/Fresnel_Vis.png" alt="FresnelEg" style="width:700px;"/></p>Fresnel coefficient length computed on our test scene (see below). The final amount has been remapped for visualisation purpose.</div> -->
 
 
 Let us describe the microfacet model in more details and focus on the roughness parameter that plays a role in the amount of reflected light. More concretely, this parameter describes the amount of micro-facet that are aligned in the same direction; in particular, rough surfaces have a chaotic orientation distribution while smooth surfaces facets are oriented in a single direction (the normal).
@@ -154,7 +155,7 @@ We can now describe the role of the Normal Distribution Function D and the Geome
 D represent the amount of microfacet that are aligned with the half vector $h$. This is the same as computing the amount of reflected light rays that are collinear to the view vector $v$.
 
 {{< figure library="true" src="/Images/PBR_Intro/ndf_halfvector.png" title="" lightbox="true" >}}
-<p align="center"> <img src="/Images/PBR_Intro/ndf_halfvector.png" alt="NDFHalfVector" style="width:700px;"/></p>
+<!-- <p align="center"> <img src="/Images/PBR_Intro/ndf_halfvector.png" alt="NDFHalfVector" style="width:700px;"/></p> -->
 
 In our case, we chose the GGX distribution function as NDF:
 
@@ -162,7 +163,7 @@ In our case, we chose the GGX distribution function as NDF:
 $$D = NDF_{GGX TR}(n, h, \alpha) = \frac{\alpha^2}{\pi((n \cdot h)^2 (\alpha^2 - 1) + 1)^2}$$
 
 {{< figure library="true" src="/Images/PBR_Intro/NDF_Vis.png" title="GGX Normal Distribution Function computed on our test scene with varying roughness (left: rough surface. right: smooth surface)" lightbox="true" >}}
-<div style="width:image width px; font-size:100%; text-align:center;"><p align="center"> <img src="/Images/PBR_Intro/NDF_Vis.png" alt="NDFEg" style="width:700px;"/></p>GGX Normal Distribution Function computed on our test scene with varying roughness (left: rough surface. right: smooth surface) </div>
+<!-- <div style="width:image width px; font-size:100%; text-align:center;"><p align="center"> <img src="/Images/PBR_Intro/NDF_Vis.png" alt="NDFEg" style="width:700px;"/></p>GGX Normal Distribution Function computed on our test scene with varying roughness (left: rough surface. right: smooth surface) </div> -->
 
 This function behaves like a diract when $\alpha = 0$ (smooth surface) and becomes flatter and flatter when $\alpha$ increases until it reaches a constant function $\frac{1}{\pi}$. That is why this formula produces small rounded highlight on smooth surfaces which are completely spread across the object on rough surfaces. 
 
@@ -186,7 +187,7 @@ This function intuitively models the fact that at grazing angle with respect to 
 
 
 {{< figure library="true" src="/Images/PBR_Intro/Geometry_Vis.png" title="Geometry function computed on our test scene (left: rough surface. right: smooth surface)." lightbox="true" >}}
-<div style="width:image width px; font-size:100%; text-align:center;"><p align="center"> <img src="/Images/PBR_Intro/Geometry_Vis.png" alt="GeometryEg" style="width:700px;"/></p>Geometry function computed on our test scene (left: rough surface. right: smooth surface).</div>
+<!--  <div style="width:image width px; font-size:100%; text-align:center;"><p align="center"> <img src="/Images/PBR_Intro/Geometry_Vis.png" alt="GeometryEg" style="width:700px;"/></p>Geometry function computed on our test scene (left: rough surface. right: smooth surface).</div> -->
 
 In this tutorial we made choices for approximation functions but several others can be found in the literature (see **References** at the bottom of the page), I invite you to take a look at BRDF comparison articles.
 
@@ -440,16 +441,16 @@ And that's it, we set up everything to compute a more realistic shading of our s
 Below, are rendering examples of the same scene with varying materials. It contains a single white point Light of intensity $I = 40$ and located at (0,0,0). Left to right spheres roughness are 1, 0.9, 0.7, 0.5, 0.3, 0.1 with (.1,.2,.8) as color and are located at (2.5,0,-2), (1.5,0,-2), (0.5,0,-2), (-0.5,0,-2), (-1.5,0,-2) and (-2.5,0,-2) with a radius of 0.3.
 
 {{< figure library="true" src="/Images/PBR_Intro/dielec_no_refl.png" title="Dielectric materials without reflection (metalness = 0)" lightbox="true" >}}
-<div style="width:image width px; font-size:100%; text-align:center;"><p align="center"> <img src="/Images/PBR_Intro/dielec_no_refl.png" alt="DielectNoRefl" style="width:700px;"/></p>Dielectric materials without reflection (metalness = 0)</div>
+<!-- <div style="width:image width px; font-size:100%; text-align:center;"><p align="center"> <img src="/Images/PBR_Intro/dielec_no_refl.png" alt="DielectNoRefl" style="width:700px;"/></p>Dielectric materials without reflection (metalness = 0)</div> -->
 
 {{< figure library="true" src="/Images/PBR_Intro/dielec_refl.png" title="Dielectric materials with reflection (metalness = 0)" lightbox="true" >}}
-<div style="width:image width px; font-size:100%; text-align:center;"><p align="center"> <img src="/Images/PBR_Intro/dielec_refl.png" alt="DielectRefl" style="width:700px;"/></p>Dielectric materials with reflection (metalness = 0)</div>
+<!-- <div style="width:image width px; font-size:100%; text-align:center;"><p align="center"> <img src="/Images/PBR_Intro/dielec_refl.png" alt="DielectRefl" style="width:700px;"/></p>Dielectric materials with reflection (metalness = 0)</div> -->
 
 {{< figure library="true" src="/Images/PBR_Intro/metal_no_refl.png" title="Metallic materials without reflection (metalness = 1)" lightbox="true" >}}
-<div style="width:image width px; font-size:100%; text-align:center;"><p align="center"> <img src="/Images/PBR_Intro/metal_no_refl.png" alt="MetalNoRefl" style="width:700px;"/></p>Metallic materials without reflection (metalness = 1)</div>
+<!-- <div style="width:image width px; font-size:100%; text-align:center;"><p align="center"> <img src="/Images/PBR_Intro/metal_no_refl.png" alt="MetalNoRefl" style="width:700px;"/></p>Metallic materials without reflection (metalness = 1)</div> -->
 
 {{< figure library="true" src="/Images/PBR_Intro/metal_refl.png" title="Metallic material with reflection (metalness = 1)" lightbox="true" >}}
-<div style="width:image width px; font-size:100%; text-align:center;"><p align="center"> <img src="/Images/PBR_Intro/metal_refl.png" alt="MetalRefl" style="width:700px;"/></p>Metallic material with reflection (metalness = 1)</div>
+<!-- <div style="width:image width px; font-size:100%; text-align:center;"><p align="center"> <img src="/Images/PBR_Intro/metal_refl.png" alt="MetalRefl" style="width:700px;"/></p>Metallic material with reflection (metalness = 1)</div> -->
 
 ## One last step: HDR and Gamma correction ##
 
@@ -473,21 +474,21 @@ Finally, we also need to take into account the color shift that screens produce 
 Here are the corrected images of the previous examples with different gamma values.
 
 {{< figure library="true" src="/Images/PBR_Intro/dielec_HDR_GAMMA_104.png" title="Dielectric materials with reflection (metalness = 0) HDR and Gamma = 1" lightbox="true" >}}
-<div style="width:image width px; font-size:100%; text-align:center;"><p align="center"> <img src="/Images/PBR_Intro/dielec_HDR_GAMMA_104.png" alt="MetalRefl" style="width:700px;"/></p>Dielectric materials with reflection (metalness = 0) HDR and Gamma = 1</div>
+<!-- <div style="width:image width px; font-size:100%; text-align:center;"><p align="center"> <img src="/Images/PBR_Intro/dielec_HDR_GAMMA_104.png" alt="MetalRefl" style="width:700px;"/></p>Dielectric materials with reflection (metalness = 0) HDR and Gamma = 1</div> -->
 
 {{< figure library="true" src="/Images/PBR_Intro/dielec_HDR_GAMMA_2.png" title="Dielectric materials with reflection (metalness = 0) HDR and Gamma = 2.2" lightbox="true" >}}
-<div style="width:image width px; font-size:100%; text-align:center;"><p align="center"> <img src="/Images/PBR_Intro/dielec_HDR_GAMMA_2.png" alt="MetalRefl" style="width:700px;"/></p>Dielectric materials with reflection (metalness = 0) HDR and Gamma = 2.2</div>
+<!-- <div style="width:image width px; font-size:100%; text-align:center;"><p align="center"> <img src="/Images/PBR_Intro/dielec_HDR_GAMMA_2.png" alt="MetalRefl" style="width:700px;"/></p>Dielectric materials with reflection (metalness = 0) HDR and Gamma = 2.2</div> -->
 
 {{< figure library="true" src="/Images/PBR_Intro/metal_HDR_GAMMA_104.png" title="Metallic material with reflection (metalness = 1) HDR and Gamma = 1" lightbox="true" >}}
-<div style="width:image width px; font-size:100%; text-align:center;"><p align="center"> <img src="/Images/PBR_Intro/metal_HDR_GAMMA_104.png" alt="MetalRefl" style="width:700px;"/></p>Metallic material with reflection (metalness = 1) HDR and Gamma = 1</div>
+<!-- <div style="width:image width px; font-size:100%; text-align:center;"><p align="center"> <img src="/Images/PBR_Intro/metal_HDR_GAMMA_104.png" alt="MetalRefl" style="width:700px;"/></p>Metallic material with reflection (metalness = 1) HDR and Gamma = 1</div> -->
 
 {{< figure library="true" src="/Images/PBR_Intro/metal_HDR_GAMMA_2.png" title="Metallic material with reflection (metalness = 1) HDR and Gamma = 2.2" lightbox="true" >}}
-<div style="width:image width px; font-size:100%; text-align:center;"><p align="center"> <img src="/Images/PBR_Intro/metal_HDR_GAMMA_2.png" alt="MetalRefl" style="width:700px;"/></p>Metallic material with reflection (metalness = 1) HDR and Gamma = 2.2</div>
+<!-- <div style="width:image width px; font-size:100%; text-align:center;"><p align="center"> <img src="/Images/PBR_Intro/metal_HDR_GAMMA_2.png" alt="MetalRefl" style="width:700px;"/></p>Metallic material with reflection (metalness = 1) HDR and Gamma = 2.2</div> -->
 
 You can also play with the different parameters and get various materials:
  
 {{< figure library="true" src="/Images/PBR_Intro/Final_Eg.png" title="Various materials, Gamma = 1" lightbox="true" >}}
-<div style="width:image width px; font-size:100%; text-align:center;"><p align="center"> <img src="/Images/PBR_Intro/Final_Eg.png" alt="FinalEg" style="width:700px;"/></p>Various materials, Gamma = 1</div>
+<!-- <div style="width:image width px; font-size:100%; text-align:center;"><p align="center"> <img src="/Images/PBR_Intro/Final_Eg.png" alt="FinalEg" style="width:700px;"/></p>Various materials, Gamma = 1</div> -->
 
 ## And then ? What's Next ? ##
 

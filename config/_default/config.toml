@@ -4,3 +4,7 @@ title = "Maxime Garcia"
 theme = "academic"
 
 ignorefiles = [ "content/Utils/*" ]
+
+[markup.goldmark.renderer]
+unsafe= true
+
