@@ -9,7 +9,6 @@ layout: useHTML
 ---
 
 
-
 <!--
 <script type="text/x-mathjax-config">
 MathJax.Hub.Config({
@@ -47,7 +46,7 @@ This tutorial is part of the ray-tracing course available [here](../raytracing_p
 
 ## Introduction ##
 
-In this tutorial, I will introduce another well known rendering approach which is very similar to ray tracing but operates in a slightly different way, especially as it treats surfaces as distance fields. Ray tracing is based on the principle that we can compute analytically ray-surface intersections, being with triangles or more complex surfaces. However, this can also be a limitation as we are bound to display only surfaces for which we are able to compute ray-surface intersection. Thus, Ray Marching comes into place and allows us to display any surface defined by an expression $f(x,y,z) = 0$ such that $\left\lVert \nabla f \right\rVert = 1$, in other words a distance field. More preciselly, in our context the $f$ function can also represent negative distances. It is referred as a Signed Distance Function (SDF) which means that when $f(p) > 0$, $p = (x,y,z)$ lies outside the surface and when $ f(p) < 0 $ it lies inside the surface. Note the D for Distance in SDF which imposes the condition $\left\lVert \nabla f \right\rVert = 1$.
+In this tutorial, I will introduce another well known rendering approach which is very similar to ray tracing but operates in a slightly different way, especially as it treats surfaces as distance fields. Ray tracing is based on the principle that we can compute analytically ray-surface intersections, being with triangles or more complex surfaces. However, this can also be a limitation as we are bound to display only surfaces for which we are able to compute ray-surface intersection. Thus, Ray Marching comes into place and allows us to display any surface defined by an expression $f(x,y,z) = 0$ such that $\left\lVert \nabla f \right\rVert = 1$, in other words a distance field. More precisely, in our context the $f$ function can also represent negative distances. It is referred as a Signed Distance Function (SDF) which means that when $f(p) > 0$, $p = (x,y,z)$ lies outside the surface and when $ f(p) < 0 $ it lies inside the surface. Note the D for Distance in SDF which imposes the condition $\left\lVert \nabla f \right\rVert = 1$.
 
 
 ## Main Principle ##
@@ -84,7 +83,7 @@ Now that I introduced the theory behind Ray Marching it is time to dig into actu
 
 	}
 
-The march function computes  color contribution for the principal the reflected rays similarly to the trace function of previous tutorials. As we are in a PBR context, it also performs tone mapping and gamma correction. The function that actually go through each ray and check intersections with the surfaces in the scene is the rayMarch function. More preciselly it returns the minimal $f(r(t))$ among all the scene surfaces. Notice that the normal at the intersection point is computed as the gradient of the surface SDF (see __SDF Gradient__ section).
+The march function computes  color contribution for the principal the reflected rays similarly to the trace function of previous tutorials. As we are in a PBR context, it also performs tone mapping and gamma correction. The function that actually go through each ray and check intersections with the surfaces in the scene is the rayMarch function. More precisely it returns the minimal $f(r(t))$ among all the scene surfaces. Notice that the normal at the intersection point is computed as the gradient of the surface SDF (see __SDF Gradient__ section).
 
 	vec3 march(in Ray r)
 	{
@@ -197,7 +196,7 @@ Lets detail the rayMarch function then. We first declare a maximum number of ite
 	}
 
 
-Computing the scene SDF is highly correlated with the way we represent the scene. In the last tutorials, we represented the scene as an union of Spheres, Planes and other surfaces whose intersection with a ray has an analytic solution. As I mentionned earlier, in our context we can combine surfaces using different operators which will change the shape of the represented surface. Thus, we need to add a new wrapper that contains both surfaces and operators that we apply between them. We define a Shape structure containing the type of primitive surface it represents and its index in the corresponding array (of Sphere, Plane,...). The ShapeOp structure contains one Shape, the operation to apply and the index of the next ShapeOp with whom the operator will be applied. By default we consider that $next = -1$, meaning that no operation will be applied, marking the end of the chained list of operations between primitive surfaces. To be more flexible in the way we build scenes, we allow ourselves to consider as many ShapeOp chain lists as we want. Thus, we define define an array of indices $shop roots$ from which each chained lists of ShapeOp should start. 
+Computing the scene SDF is highly correlated with the way we represent the scene. In the last tutorials, we represented the scene as an union of Spheres, Planes and other surfaces whose intersection with a ray has an analytic solution. As I mentioned earlier, in our context we can combine surfaces using different operators which will change the shape of the represented surface. Thus, we need to add a new wrapper that contains both surfaces and operators that we apply between them. We define a Shape structure containing the type of primitive surface it represents and its index in the corresponding array (of Sphere, Plane,...). The ShapeOp structure contains one Shape, the operation to apply and the index of the next ShapeOp with whom the operator will be applied. By default we consider that $next = -1$, meaning that no operation will be applied, marking the end of the chained list of operations between primitive surfaces. To be more flexible in the way we build scenes, we allow ourselves to consider as many ShapeOp chain lists as we want. Thus, we define define an array of indices $shop roots$ from which each chained lists of ShapeOp should start. 
 
 
 	struct Shape
@@ -219,7 +218,7 @@ Computing the scene SDF is highly correlated with the way we represent the scene
 	const int shop_root_nbr = 1;
 	int shop_roots[shop_root_nbr] = int[](0);
 
-As a starter, lets consider one simple scene composed of a unique Sphere. Below I put the necessary code to define the three primitives I use in this tutorial. Note that this code should be put before the code section presented just above. 
+As a starter, let's consider one simple scene composed of a unique Sphere. Below I put the necessary code to define the three primitives I use in this tutorial. Note that this code should be put before the code section presented just above. 
 
 
 	const int plane_type = 0;
@@ -266,7 +265,7 @@ As a starter, lets consider one simple scene composed of a unique Sphere. Below 
 	,Plane(vec3(1,0,0),5.0f),Plane(vec3(-1,0,0),5.0f));
 
 
-Lets now compute the scene SDF at the current ray point $p$ within the chained list of surface operators, defining a single sphere. We iterate through each chain list, compute their related SDF by iterativelly appliying SDF operators and returns the closest computed distance among all chained lists (only one in our case). 
+Lets now compute the scene SDF at the current ray point $p$ within the chained list of surface operators, defining a single sphere. We iterate through each chain list, compute their related SDF by iteratively applying SDF operators and returns the closest computed distance among all chained lists (only one in our case). 
 
 	ISObj sceneSDF(in vec3 point)
 	{
@@ -426,7 +425,7 @@ Using the following lights in your scene you should now obtain a correctly shade
 ## Example : March Lava Lamp ##
 
 Let's now build a more complex scene using only one ShapeOp chained list. The main idea here is to display a kind of lava lamp using spheres and two boxes.
-This can be easilly achieved by using the smooth union operator which interpolates between two SDF that are near each other. 
+This can be easily achieved by using the smooth union operator which interpolates between two SDF that are near each other. 
 
 	const int shop_nbr = 10;
 	ShapeOp shops[shop_nbr] = ShapeOp[](ShapeOp(Shape(1,0),3,1)
@@ -462,10 +461,10 @@ Now that you can render more complex scenes and I invite you to test all kind of
 
 ## Bonus Effect: Ambient Occulsion ##
 
-Rendering 3D scenes using ray marching also offer other advantages. Additionnal rendering effect like Ambient Occlusion can be computed with a reduced cost.
+Rendering 3D scenes using ray marching also offer other advantages. Additional rendering effect like Ambient Occlusion can be computed with a reduced cost.
 Ambient Occlusion is the equivalent of ambient lighting but for shadowing, it describes which parts of the scene that are likely to not be lighted because of the geometry of its surroundings, preventing light ray to reach those areas. This effect can be simply be noticed at the edges and corners of your room where lights hardly strike those areas.
-Ray Marching offers us a simple way to approximate this ambient occlusion term. The main idea is to cast an ambient occlusion ray from the intersection point $p$ in the normal direction $\vec{n}$ and march through this ray step by step with a relatively small $\delta_t$. Then at each step, we compute the scene SDF and compare its value to the distance with respect to the intersection point which is equal to $i \delta_t$, $i$ being the number of the current step. In the case where the interection point lies on a convex surface like a sphere we expect this distance and the scene SDF to be the same. However, it is far from being true in the general case, meaning that the scene SDF can be lower than $i \delta_t$ at some steps, being nearer to other surfaces. 
-This simulate the fact that some areas around the intersection point can occlude incomming rays. In practice, we first initialize the occlusion factor at $1$ and compute at each step $\frac{(i \delta_t - SDF_{Scene})^2}{i}$ and substract this amount to the occlusion factor. Notice the denominator which takes into account that the farther from the intersection point we make this evaluation the less plausible it is as we might look far from the surroundings.
+Ray Marching offers us a simple way to approximate this ambient occlusion term. The main idea is to cast an ambient occlusion ray from the intersection point $p$ in the normal direction $\vec{n}$ and march through this ray step by step with a relatively small $\delta_t$. Then at each step, we compute the scene SDF and compare its value to the distance with respect to the intersection point which is equal to $i \delta_t$, $i$ being the number of the current step. In the case where the intersection point lies on a convex surface like a sphere we expect this distance and the scene SDF to be the same. However, it is far from being true in the general case, meaning that the scene SDF can be lower than $i \delta_t$ at some steps, being nearer to other surfaces. 
+This simulate the fact that some areas around the intersection point can occlude incoming rays. In practice, we first initialize the occlusion factor at $1$ and compute at each step $\frac{(i \delta_t - SDF_{Scene})^2}{i}$ and subtract this amount to the occlusion factor. Notice the denominator which takes into account that the farther from the intersection point we make this evaluation the less plausible it is as we might look far from the surroundings.
 
 	float AmbientOcclusion(vec3 point, vec3 normal, float step_dist, float step_nbr)
 	{
@@ -505,7 +504,7 @@ This simulate the fact that some areas around the intersection point can occlude
 	}
 
 
-It is important to note that when computing the ambient occlusion term, the total travel distance should remain as short as possible because. Indeed, like mentionned earlier, the farther you travel through this ray, the more artifact you are likely to get because surfaces that are too far away from the intersection point might contribute to the occlusion term while not being part of its surroundings. With the parameters I used, you should have an ambient occlusion terms like depicted below. Note that I amplified its effect using a power function with a relatively high factor.
+It is important to note that when computing the ambient occlusion term, the total travel distance should remain as short as possible because. Indeed, like mentioned earlier, the farther you travel through this ray, the more artifact you are likely to get because surfaces that are too far away from the intersection point might contribute to the occlusion term while not being part of its surroundings. With the parameters I used, you should have an ambient occlusion terms like depicted below. Note that I amplified its effect using a power function with a relatively high factor.
 
 {{< figure library="true" src="/Images/RayMarch_Intro/Ambient_Occlusion.png" title="" lightbox="true" >}}
 

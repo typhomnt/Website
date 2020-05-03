@@ -5,17 +5,17 @@
 widget = "pages"  # See https://sourcethemes.com/academic/docs/page-builder/
 headless = true  # This file represents a page section.
 active = true  # Activate this widget? true/false
-weight = 60  # Order that this section will appear.
+weight = 80  # Order that this section will appear.
 
-title = "Recent Posts"
+title = "Recent Publications"
 subtitle = ""
 
 [content]
   # Page type to display. E.g. post, talk, or publication.
-  page_type = "post"
+  page_type = "research"
   
   # Choose how much pages you would like to display (0 = all pages)
-  count = 5
+  count = 1
   
   # Choose how many pages you would like to offset by
   offset = 0
@@ -50,7 +50,7 @@ subtitle = ""
   
   # Background gradient.
   gradient_start = "White"
-  gradient_end = "SkyBlue"
+  gradient_end = "LightGray"
   
   # Background image.
   # image = "background.jpg"  # Name of image in `static/img/`.

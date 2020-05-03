@@ -38,13 +38,10 @@ education:
 social:
 - icon: envelope
   icon_pack: fas
-  link: '#contact'  # For a direct email link, use "mailto:test@example.org".
+  link: 'mailto:maxime.garcia1@ensimag.genoble-inp.fr'  # For a direct email link, use "mailto:test@example.org".
 - icon: google-scholar
   icon_pack: ai
-  link: https://scholar.google.co.uk/citations?user=sIwtMXoAAAAJ
-- icon: github
-  icon_pack: fab
-  link: https://github.com/gcushen
+  link: https://scholar.google.com/citations?user=HKRJSQoAAAAJ&hl=en&oi=sra
 # Link to a PDF of your resume/CV from the About widget.
 # To enable, copy your resume/CV to `static/files/cv.pdf` and uncomment the lines below.
 # - icon: cv
@@ -52,7 +49,7 @@ social:
 #   link: files/cv.pdf
 
 # Enter email to display Gravatar (if Gravatar enabled in Config)
-email: ""
+email: "maxime.garcia1@ensimag.genoble-inp.fr"
 
 # Organizational groups that you belong to (for People widget)
 #   Set this to `[]` or comment out if you are not using People widget.
@@ -61,15 +58,9 @@ user_groups:
 - Visitors
 ---
 
-Welcome to my website. I'm Maxime Garcia, currently a PhD student working at Inria within the Imagine Team.
-On this web site I'll be posting articles on my research results as well as articles on the Game Engine I develop.
+Welcome to my website. I'm Maxime Garcia, a Post-Doc working at Inria Rhone Alples, in the Maverick Team.
+On this website I post articles on my research results as well as articles on the Game Engine I develop.
 
 My students can also find praticals topics and courses slides in the teaching resources section.
 
-Finally, I'll also post some art related stuff since I sometimes take time to draw or do some 3D modeling.
-
-
-[Teaching Resources](teaching_ressources) |
-[Research Work](research_work) |
-[SkyEngine](skyengine) |
-[Art](art) 
+Finally, I also post some art related stuff since I sometimes take time to draw or do some 3D modeling.

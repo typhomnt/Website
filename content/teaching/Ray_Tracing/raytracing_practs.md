@@ -20,6 +20,8 @@ I would like to thank Romain Vergne for his course slides and the two first prac
 
 [Physically Based Rendering](../pbr_intro)
 
+[Ray Marching](../raymarching_intro)
+
 ## Practicals
 
 [Base Code](/Files/MSIAM_Code.zip)
