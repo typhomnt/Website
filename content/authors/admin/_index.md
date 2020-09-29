@@ -38,7 +38,7 @@ education:
 social:
 - icon: envelope
   icon_pack: fas
-  link: 'mailto:maxime.garcia1@ensimag.genoble-inp.fr'  # For a direct email link, use "mailto:test@example.org".
+  link: 'mailto:maxime.garcia1@ensimag.grenoble-inp.fr'  # For a direct email link, use "mailto:test@example.org".
 - icon: google-scholar
   icon_pack: ai
   link: https://scholar.google.com/citations?user=HKRJSQoAAAAJ&hl=en&oi=sra
@@ -49,7 +49,7 @@ social:
 #   link: files/cv.pdf
 
 # Enter email to display Gravatar (if Gravatar enabled in Config)
-email: "maxime.garcia1@ensimag.genoble-inp.fr"
+email: "maxime.garcia1@ensimag.grenoble-inp.fr"
 
 # Organizational groups that you belong to (for People widget)
 #   Set this to `[]` or comment out if you are not using People widget.
@@ -58,7 +58,7 @@ user_groups:
 - Visitors
 ---
 
-Welcome to my website. I'm Maxime Garcia, a Post-Doc working at Inria Rhone Alples, in the Maverick Team.
+Welcome to my website. I'm Maxime Garcia, a Post-Doc working at Inria Rhone Alpes, in the Maverick Team.
 On this website I post articles on my research results as well as articles on the Game Engine I develop.
 
 My students can also find praticals topics and courses slides in the teaching resources section.

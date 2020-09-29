@@ -6,8 +6,8 @@ draft: false
 
 [3D Graphics Resources](http://morpheo.inrialpes.fr/~franco/3dgraphics/index.html)
 
-[Raytracing Resources](raytracing_practs)
+[Raytracing Resources](Ray_Tracing/raytracing_practs)
 
-[Functionnal Programming](functionnal_programming_practs)
+[Functionnal Programming](Functionnal_Programming/functionnal_programming_practs)
 
 
