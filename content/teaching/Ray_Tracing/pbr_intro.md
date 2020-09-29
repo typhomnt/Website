@@ -1,5 +1,6 @@
 ---
 title: "An Introduction to Physically Based Rendering"
+summary: Introduction to real-time physically based rendering.
 date: 2020-22-20T16:22:09+01:00
 draft: false
 math: true

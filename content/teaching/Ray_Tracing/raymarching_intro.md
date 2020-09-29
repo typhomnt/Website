@@ -1,5 +1,6 @@
 ---
 title: "An Introduction to Raymarching"
+summary: Introduction to raymarching inside one fragment shader.
 date: 2020-22-20T16:22:09+01:00
 draft: false
 math: true
