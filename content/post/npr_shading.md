@@ -26,7 +26,7 @@ In our 3D context, there are various ways of computing silhouttes and inner cont
 
 # Shading #
 
-Shading refers to how light interact with object surfaces and is actually a notion that has various mathematical representations like the one I present in this article on [Physically-Based Rendering](). 
+Shading refers to how light interact with object surfaces and is actually a notion that has various mathematical representations like the one I present in this article on [Physically-Based Rendering](../../teaching/ray_tracing/pbr_intro). 
 
 Shading described the color and intensity of light that goes into our eye is the result of different contributions. Here, I cornered them to: 
 
